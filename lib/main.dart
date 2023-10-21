@@ -6,6 +6,7 @@ import 'package:fishbowl/firebase_options.dart';
 import 'package:fishbowl/globalstate.dart';
 import 'package:fishbowl/login.dart';
 import 'package:fishbowl/match.dart';
+import 'package:fishbowl/portfolio.dart';
 import 'package:fishbowl/splash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,13 +39,18 @@ class MyApp extends StatelessWidget {
               ? Splash(
                   settings: settings,
                 )
-              : const MyHomePage(title: 'Flutter Demo Home Page')),
+              : MyHomePage(
+                  title: 'Flutter Demo Home Page',
+                  settings: settings,
+                )),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  AppSettings settings;
+
+  MyHomePage({super.key, required this.title, required this.settings});
 
   final String title;
 
@@ -76,29 +82,32 @@ class _MyHomePageState extends State<MyHomePage> {
         ? LoginPage()
         : CupertinoTabScaffold(
             tabBar: CupertinoTabBar(
+              height: 65,
               items: const [
                 BottomNavigationBarItem(
                   icon: Icon(CupertinoIcons.play_circle_fill),
-                  label: "Home",
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(CupertinoIcons.home),
-                  label: "Profile",
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(CupertinoIcons.person),
-                  label: "Profile",
                 ),
               ],
             ),
             tabBuilder: (context, index) {
               switch (index) {
                 case 0:
+                  // return Portfolio(
+                  //   settings: widget.settings,
+                  // );
                   return FeedPage();
                 case 1:
                   return MatchPage();
                 case 2:
-                  return Container();
+                  return Portfolio(
+                    settings: widget.settings,
+                  );
                 default:
                   return Container();
               }
