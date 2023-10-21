@@ -98,16 +98,12 @@ class _MyHomePageState extends State<MyHomePage> {
             tabBuilder: (context, index) {
               switch (index) {
                 case 0:
-                  // return Portfolio(
-                  //   settings: widget.settings,
-                  // );
+                  return PortfolioPage(settings: widget.settings);
                   return FeedPage();
                 case 1:
                   return MatchPage();
                 case 2:
-                  return Portfolio(
-                    settings: widget.settings,
-                  );
+                  return PortfolioPage(settings: widget.settings);
                 default:
                   return Container();
               }
