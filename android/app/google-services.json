@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "75060213403",
+    "project_id": "fishbowl-b1cf4",
+    "storage_bucket": "fishbowl-b1cf4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:75060213403:android:82d4b9415165137505783e",
+        "android_client_info": {
+          "package_name": "com.example.fishbowl"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtKVoif1rZT_kh07HWaN3BFaEB6imZJq8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
