@@ -1,53 +1,56 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Information {
-  String? about_us;
-  String? data;
+class Company {
+  String? name;
+  String? aboutUs;
+  List<Map<String, String>>? data;
   String? video;
+  List<Map<String, String>>? founders;
+  String? frontImage;
 
-  Information({
-    this.about_us,
-    this.data,
-    this.video,
-  });
+  Company(
+      {this.aboutUs,
+      this.data,
+      this.video,
+      this.founders,
+      this.name,
+      this.frontImage});
 
-  factory Information.fromFirestore(
+  factory Company.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot, [
     SnapshotOptions? options,
   ]) {
     final data = snapshot.data();
-    return Information(
-      about_us: data?['about_us'],
-      data: data?['data'],
-      video: data?['video'],
-    );
+    return Company(
+        aboutUs: data?['about_us'],
+        data: data?['data'],
+        video: data?['video'],
+        founders: data?['founders'],
+        name: data?['name'],
+        frontImage: data?['front_image']);
   }
 
   String getAboutUs() {
-    return about_us!;
+    return aboutUs!;
   }
 
-  // List<List<String>> getData(String dataIn) {
-  //   // String[] parsedData = dataIn.split("");
+  List<Map<String, String>> getData() {
+    return data!;
+  }
 
-  //   // List<>
-  //   // TODO: implement getData
-
-  //   List<String> parsedData = dataIn.split("@");
-  //   List<String> images;
-  //   List<String> text;
-
-  //   for (int i = 0; i < parsedData.length; i++) {
-  //     List<String> dataPiece = parsedData[i].split("|");
-  //     if (dataPiece[0] === "text") {
-  //       text.
-  //     }
-  //   }
-
-  //   return data!;
-  // }
+  List<Map<String, String>> getFounders() {
+    return founders!;
+  }
 
   String getVideoURL() {
     return video!;
+  }
+
+  String getName() {
+    return name!;
+  }
+
+  String getFrontImage() {
+    return frontImage!;
   }
 }

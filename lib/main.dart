@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -98,8 +99,12 @@ class _MyHomePageState extends State<MyHomePage> {
             tabBuilder: (context, index) {
               switch (index) {
                 case 0:
-                  return PortfolioPage(settings: widget.settings);
-                  return FeedPage();
+                  // return Portfolio(
+                  //   settings: widget.settings,
+                  // );
+                  return const FeedPage(
+                    companyId: "hEhMFIihS09KNWOtQEy5",
+                  );
                 case 1:
                   return MatchPage();
                 case 2:
