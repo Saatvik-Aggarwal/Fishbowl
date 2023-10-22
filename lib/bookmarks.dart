@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BookmarksPage extends StatefulWidget {
+  const BookmarksPage({super.key});
+
   @override
   State<BookmarksPage> createState() => _BookmarksPageState();
 }

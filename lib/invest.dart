@@ -102,7 +102,7 @@ class _InvestPageState extends State<InvestPage> {
                                             .getTextOnPrimaryColor(),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                         width:
                                             16), // Add a little space between the text and input
                                     Expanded(
@@ -122,7 +122,7 @@ class _InvestPageState extends State<InvestPage> {
                                             borderRadius:
                                                 BorderRadius.circular(8),
                                           ),
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Colors.black,
                                               fontSize: 16),
                                           onChanged: (value) {
@@ -137,7 +137,7 @@ class _InvestPageState extends State<InvestPage> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Row(
                                   children: [
                                     Text(
@@ -149,7 +149,7 @@ class _InvestPageState extends State<InvestPage> {
                                             .getTextOnPrimaryColor(),
                                       ),
                                     ),
-                                    SizedBox(width: 16),
+                                    const SizedBox(width: 16),
                                     Expanded(
                                       child: Align(
                                         alignment: Alignment.centerLeft,
@@ -176,29 +176,32 @@ class _InvestPageState extends State<InvestPage> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 32,
                   ),
                   Container(
-                    width: 420,
+                    width: MediaQuery.of(context).size.width - 72,
                     height: 40,
                     child: CupertinoButton(
-                      padding: EdgeInsets.all(0),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) => AgreementPage(
-                              company: widget.company,
-                              investment: Investment(
-                                companyID: widget.company.id,
-                                shares: dollarAmount /
-                                    widget.company.pricePerShare!,
-                              ),
-                            ),
-                          ),
-                        );
-                      },
+                      padding: const EdgeInsets.all(0),
+                      onPressed: (dollarAmount == 0 ||
+                              dollarAmount > GlobalState().user!.balance)
+                          ? null
+                          : () {
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (context) => AgreementPage(
+                                    company: widget.company,
+                                    investment: Investment(
+                                      companyID: widget.company.id,
+                                      shares: dollarAmount /
+                                          widget.company.pricePerShare!,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                       color: AppSettings(darkMode: true, loggedIn: true)
                           .getBackgroundColor(),
                       child: Text(
