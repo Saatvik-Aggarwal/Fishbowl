@@ -83,7 +83,7 @@ flutter:
   fonts:
     - family: GeneralSans
       fonts:
-        - asset: assets/fonts/GeneralSans-Medium.ttf
+        - asset: fonts/GeneralSans-Medium.ttf
         # - asset: fonts/GeneralSans-Variable.ttf
         # - asset: fonts/GeneralSans-VariableItalic.ttf
         #   style: italic
