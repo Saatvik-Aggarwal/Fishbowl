@@ -1,11 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fishbowl/obj/company.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fishbowl/appsettings.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class FeedPage extends StatefulWidget {
+  final String companyId;
+
+  const FeedPage({Key? key, required this.companyId}) : super(key: key);
+
   @override
-  _FeedPageState createState() => _FeedPageState();
+  State<FeedPage> createState() => _FeedPageState();
 }
 
 class _FeedPageState extends State<FeedPage> {
@@ -14,12 +20,23 @@ class _FeedPageState extends State<FeedPage> {
   VideoPlayerController _controller = VideoPlayerController.networkUrl(Uri.parse(
       'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4'));
 
+  Company? companyInfo;
+
   @override
   void initState() {
     super.initState();
-    _controller.initialize().then((_) => setState(() {}));
-    _controller.play();
-    _controller.setLooping(true);
+
+    FirebaseFirestore.instance
+        .collection('companies')
+        .doc(widget.companyId)
+        .get()
+        .then((value) {
+      setState(() {
+        companyInfo = Company.fromFirestore(value);
+        _controller = VideoPlayerController.networkUrl(
+            Uri.parse(companyInfo?.getVideoURL() ?? ""));
+      });
+    });
   }
 
   @override
@@ -32,77 +49,88 @@ class _FeedPageState extends State<FeedPage> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       backgroundColor: settings.getBackgroundColor(),
-      child: SingleChildScrollView(
-        child: Column(children: [
-          Container(
-            height: MediaQuery.of(context).size.height,
-            color: Colors.black,
-            child: VideoPlayer(_controller),
-          ),
-          // Display Company Name
-          Container(
-            height: 100,
-            color: Colors.white,
-            child: Row(
-              children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.white,
-                  child: Image.network(
-                      'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Unilever_Logo.svg/1200px-Unilever_Logo.svg.png'),
+      child: companyInfo == null
+          ? const Center(child: CupertinoActivityIndicator())
+          : SingleChildScrollView(
+              child: Column(children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  child: VideoPlayer(_controller),
                 ),
+                // Display Company Name
                 Container(
-                  width: 200,
-                  height: 100,
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      Text(
-                        "Unilever",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "UL",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      Text(
-                        "Price",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "123.45",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                    height: MediaQuery.of(context).size.height,
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        // Name, Picture, About, Founders, Data
+                        // Name
+                        Container(
+                          height: 100,
+                          color: Colors.white,
+                          child: Center(
+                            child: Text(
+                              companyInfo!.getName(),
+                              style: TextStyle(
+                                fontSize: 36,
+                                fontWeight: FontWeight.bold,
+                                color:
+                                    AppSettings(darkMode: true, loggedIn: true)
+                                        .getSecondaryColor(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Picture
+                        Image.network(
+                          companyInfo!.getFrontImage(),
+                        ),
+                        // About
+                        Container(
+                          height: 100,
+                          color: Colors.white,
+                          child: Center(
+                            child: Text(
+                              companyInfo?.getAboutUs() ?? "",
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Founders
+                        Container(
+                          height: 100,
+                          color: Colors.white,
+                          child: Center(
+                            child: Text(
+                              "Founders",
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Data
+                        Container(
+                          height: 100,
+                          color: Colors.white,
+                          child: Center(
+                            child: Text(
+                              "Data",
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
+              ]),
             ),
-          ),
-        ]),
-      ),
     );
   }
 }

@@ -22,14 +22,6 @@ class _LoginPageState extends State<LoginPage> {
   bool _requesting = false;
 
   Future<void> _login() async {
-    if (_requesting) {
-      return;
-    }
-
-    setState(() {
-      _requesting = true;
-    });
-
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
@@ -43,21 +35,9 @@ class _LoginPageState extends State<LoginPage> {
         gravity: Toast.bottom,
       );
     }
-
-    setState(() {
-      _requesting = false;
-    });
   }
 
   Future<void> _signup() async {
-    if (_requesting) {
-      return;
-    }
-
-    setState(() {
-      _requesting = true;
-    });
-
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
@@ -72,10 +52,6 @@ class _LoginPageState extends State<LoginPage> {
         gravity: Toast.bottom,
       );
     }
-
-    setState(() {
-      _requesting = false;
-    });
   }
 
   @override
