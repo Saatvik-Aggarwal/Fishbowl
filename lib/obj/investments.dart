@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fishbowl/obj/company.dart';
 
 class Investments {
 
@@ -21,15 +22,12 @@ class Investments {
     );
   }
 
-  String getCompany() {
-    FirebaseFirestore.instance
+  Future<Company> getCompany() async {
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
         .collection('companies')
-        .doc(company!)
-        .get()
-        .then((value) {
-      print(value.data());
-    });
-    return company!;
+        .doc(company)
+        .get();
+    return Company.fromFirestore(snapshot);
   }
 
   double getShares() {
