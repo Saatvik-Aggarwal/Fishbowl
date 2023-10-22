@@ -12,6 +12,7 @@ class Company {
   double? pricePerShare;
   double? goalAmount;
   double? currentTotal;
+  List<dynamic>? industries;
   String? id;
 
   Company(
@@ -24,6 +25,7 @@ class Company {
       this.pricePerShare,
       this.goalAmount,
       this.currentTotal,
+      this.industries,
       required this.id});
 
   factory Company.fromFirestore(
@@ -42,10 +44,15 @@ class Company {
         pricePerShare: data?['price_per_share'],
         goalAmount: data?['goal_amount'],
         currentTotal: data?['current_total'],
+        industries: data?['industries'],
         id: snapshot.id);
 
     GlobalState().companies[c.id!] = c;
     return c;
+  }
+
+  List<dynamic> getIndustries() {
+    return industries!;
   }
 
   String getAboutUs() {

@@ -1,6 +1,7 @@
 import 'package:fishbowl/appsettings.dart';
 import 'package:fishbowl/feed.dart';
 import 'package:fishbowl/globalstate.dart';
+import 'package:fishbowl/obj/company.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -38,14 +39,23 @@ class _BookmarksPageState extends State<BookmarksPage> {
     'Manufacturing': CupertinoIcons.hammer_fill,
   };
 
+  String? selectedIndustry;
+  List<Company> filteredCompanies = [];
+
   @override
   Widget build(BuildContext context) {
+    // Filter the companies based on the selected industry
+    filteredCompanies = GlobalState().companies.values.where((company) {
+      return selectedIndustry == null ||
+          company.industries!.contains(selectedIndustry!);
+    }).toList();
+
     return CupertinoPageScaffold(
       backgroundColor: settings.getBackgroundColor(),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "Bookmarks",
@@ -54,44 +64,78 @@ class _BookmarksPageState extends State<BookmarksPage> {
                   fontSize: 28,
                   fontWeight: FontWeight.w200),
             ),
+            SizedBox(height: 8),
+            Container(
+              height: 200,
+              child: (GlobalState().user == null ||
+                      GlobalState().user!.bookmarks.isEmpty)
+                  ? Center(
+                      child: Text(
+                        "You have no bookmarks",
+                        style: TextStyle(
+                            color: settings.getPrimaryColor(),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w200),
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: GlobalState().user!.bookmarks.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                            child: ListTile(
+                          title: Text(GlobalState()
+                              .companies[GlobalState().user!.bookmarks[index]]!
+                              .name!),
+                          trailing: const Icon(Icons.arrow_forward_ios),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => SingleFeedPage(
+                                  company: GlobalState().companies[
+                                      GlobalState().user!.bookmarks[index]]!,
+                                ),
+                              ),
+                            );
+                          },
+                        ));
+                      },
+                    ),
+            ),
+            Text(
+              "Industries",
+              style: TextStyle(
+                  color: settings.getPrimaryColor(),
+                  fontSize: 28,
+                  fontWeight: FontWeight.w200),
+            ),
             SizedBox(height: 16),
             industryScrollView(),
+            SizedBox(height: 16),
             Expanded(
-                child: (GlobalState().user == null ||
-                        GlobalState().user!.bookmarks.isEmpty)
-                    ? Center(
-                        child: Text(
-                          "You have no bookmarks",
-                          style: TextStyle(
-                              color: settings.getPrimaryColor(),
-                              fontSize: 18,
-                              fontWeight: FontWeight.w200),
-                        ),
-                      )
-                    : ListView.builder(
-                        itemCount: GlobalState().user!.bookmarks.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                              child: ListTile(
-                            title: Text(GlobalState()
-                                .companies[
-                                    GlobalState().user!.bookmarks[index]]!
-                                .name!),
-                            trailing: const Icon(Icons.arrow_forward_ios),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                  builder: (context) => SingleFeedPage(
-                                    company: GlobalState().companies[
-                                        GlobalState().user!.bookmarks[index]]!,
-                                  ),
-                                ),
-                              );
-                            },
-                          ));
-                        },
-                      ))
+              child: ListView.builder(
+                itemCount: filteredCompanies.length,
+                itemBuilder: (context, index) {
+                  Company company = filteredCompanies[index];
+                  return Card(
+                    child: ListTile(
+                      title: Text(company.name!),
+                      trailing: const Icon(Icons.arrow_forward_ios),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => SingleFeedPage(
+                              company: company,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),
@@ -107,21 +151,28 @@ class _BookmarksPageState extends State<BookmarksPage> {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Column(
-              children: [
-                Icon(
-                  industryIcons[industries[index]],
-                  size: 30,
-                  color: settings.getPrimaryColor(),
-                ),
-                Text(
-                  industries[index],
-                  style: TextStyle(
-                    fontSize: 12,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedIndustry = industries[index];
+                });
+              },
+              child: Column(
+                children: [
+                  Icon(
+                    industryIcons[industries[index]],
+                    size: 30,
                     color: settings.getPrimaryColor(),
                   ),
-                ),
-              ],
+                  Text(
+                    industries[index],
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: settings.getPrimaryColor(),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         },
