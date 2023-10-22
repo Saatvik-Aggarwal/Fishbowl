@@ -1,16 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:fishbowl/agreement.dart';
 import 'package:fishbowl/algorithmic_feed_matcher.dart';
 import 'package:fishbowl/appsettings.dart';
-import 'package:fishbowl/feed.dart';
 import 'package:fishbowl/firebase_options.dart';
 import 'package:fishbowl/globalstate.dart';
 import 'package:fishbowl/login.dart';
 import 'package:fishbowl/bookmarks.dart';
-import 'package:fishbowl/obj/company.dart';
-import 'package:fishbowl/obj/investments.dart';
 import 'package:fishbowl/obj/user.dart';
 import 'package:fishbowl/portfolio.dart';
 import 'package:fishbowl/splash.dart';

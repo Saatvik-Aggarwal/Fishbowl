@@ -35,12 +35,28 @@ class Portfolio extends State<PortfolioPage> {
             padding: const EdgeInsets.all(16),
             child: Center(
               child: Column(children: [
-                Text(
-                  "My Portfolio",
-                  style: TextStyle(
-                      color: widget.settings.getPrimaryColor(),
-                      fontSize: 34,
-                      fontWeight: FontWeight.w200),
+                Row(
+                  children: [
+                    Text(
+                      "My Portfolio",
+                      style: TextStyle(
+                          color: widget.settings.getPrimaryColor(),
+                          fontSize: 34,
+                          fontWeight: FontWeight.w200),
+                    ),
+                    const Spacer(),
+                    // Sign out button
+                    IconButton(
+                      icon: Icon(
+                        Icons.logout,
+                        color: widget.settings.getPrimaryColor(),
+                      ),
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut();
+                        GlobalState().user = null;
+                      },
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 50,
