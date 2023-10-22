@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fishbowl/obj/company.dart';
 import 'package:fishbowl/obj/investments.dart';
+import 'package:fishbowl/success_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -130,8 +131,12 @@ class AgreementPage extends StatelessWidget {
                       newInvestment.uploadInvestment();
                       company
                           .updateCurrentTotal(numberOfShares * pricePerShare);
-
-                      Navigator.pop(context);
+                      Navigator.of(context).push(
+                        CupertinoPageRoute(
+                          builder: (context) => SuccessPage(),
+                        ),
+                      );
+                      // Navigator.pop(context);
                     },
                   ),
                 ],
