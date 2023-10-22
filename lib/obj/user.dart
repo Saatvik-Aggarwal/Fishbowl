@@ -6,12 +6,14 @@ class User {
   String? id;
   String? firstName;
   String? lastName;
+  List? industries;
   double? balance;
 
   User(
       {required this.id,
       required this.firstName,
       required this.lastName,
+      required this.industries,
       required this.balance});
 
   factory User.fromFirestore(
@@ -23,6 +25,7 @@ class User {
       id: snapshot.id,
       firstName: data!['firstName'],
       lastName: data['lastName'],
+      industries: data['industries'],
       balance: data['balance'] ?? 0.0,
     );
   }
@@ -33,6 +36,10 @@ class User {
 
   String getLastName() {
     return lastName!;
+  }
+
+  List getIndustries() {
+    return industries!;
   }
 
   double getBalance() {

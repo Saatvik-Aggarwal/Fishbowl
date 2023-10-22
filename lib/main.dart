@@ -127,7 +127,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 //     investment: testInvestment,
                 //   );
                 case 2:
-                  return PortfolioPage(settings: widget.settings);
+                  return CupertinoTabView(
+                      builder: (context) => PortfolioPage(
+                            settings: widget.settings,
+                          ));
                 default:
                   return Container();
               }

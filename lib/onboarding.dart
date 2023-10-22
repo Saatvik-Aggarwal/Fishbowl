@@ -22,7 +22,7 @@ class Onboarding extends State<OnboardingPage> {
   String _firstName = '';
   String _lastName = '';
   String _budget = '';
-  List<String> _selectedInterests = [];
+  List<String> _selectedIndustries = [];
 
   // List of industries
   final List<String> industries = [
@@ -51,17 +51,17 @@ class Onboarding extends State<OnboardingPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(industry),
-                    if (_selectedInterests.contains(industry))
+                    if (_selectedIndustries.contains(industry))
                       const Icon(CupertinoIcons.check_mark,
                           color: CupertinoColors.activeBlue)
                   ],
                 ),
                 onPressed: () {
                   localSetState(() {
-                    if (_selectedInterests.contains(industry)) {
-                      _selectedInterests.remove(industry);
+                    if (_selectedIndustries.contains(industry)) {
+                      _selectedIndustries.remove(industry);
                     } else {
-                      _selectedInterests.add(industry);
+                      _selectedIndustries.add(industry);
                     }
                   });
                 },
@@ -149,7 +149,7 @@ class Onboarding extends State<OnboardingPage> {
                 ),
                 const SizedBox(height: 24),
                 Text(
-                  "Interests",
+                  "Industries",
                   style: TextStyle(
                       color: widget.settings.getPrimaryColor(),
                       fontSize: 18,
@@ -166,7 +166,7 @@ class Onboarding extends State<OnboardingPage> {
                           color: widget.settings.getPrimaryColor(), width: 1),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Text(_selectedInterests.join(', ')),
+                    child: Text(_selectedIndustries.join(', ')),
                   ),
                 ),
                 const SizedBox(height: 82),
@@ -183,10 +183,16 @@ class Onboarding extends State<OnboardingPage> {
                             TextStyle(color: widget.settings.getPrimaryColor()),
                       ),
                       onPressed: () {
-                        print('First Name: $_firstName');
-                        print('Last Name: $_lastName');
-                        print('Interests: ${_selectedInterests.join(', ')}');
-                        print(_budget);
+                        FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(FirebaseAuth.instance.currentUser!.uid)
+                            .set({
+                          'firstName': _firstName,
+                          'lastName': _lastName,
+                          'balance': _budget,
+                          'industries': _selectedIndustries,
+                        });
+                        Navigator.pop(context);
                       },
                     ),
                   ),

@@ -263,22 +263,10 @@ class _FeedPageState extends State<FeedPage> {
                                   ),
                                 ),
                               ),
-
                               Row(
                                 // small bookmark button, "interested"
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  CupertinoButton(
-                                    onPressed: () {},
-                                    color: AppSettings(
-                                            darkMode: true, loggedIn: true)
-                                        .getSecondaryColor(),
-                                    child: Icon(CupertinoIcons.bookmark,
-                                        color: AppSettings(
-                                                darkMode: true, loggedIn: true)
-                                            .getPrimaryColor()),
-                                  ),
-                                  const SizedBox(width: 16),
                                   CupertinoButton(
                                     onPressed: () {
                                       Navigator.of(context).push(
@@ -298,6 +286,17 @@ class _FeedPageState extends State<FeedPage> {
                                               .getTextOnSecondaryColor()),
                                     ),
                                   ),
+                                  CupertinoButton(
+                                    onPressed: () {},
+                                    color: AppSettings(
+                                            darkMode: true, loggedIn: true)
+                                        .getSecondaryColor(),
+                                    child: Icon(CupertinoIcons.bookmark,
+                                        color: AppSettings(
+                                                darkMode: true, loggedIn: true)
+                                            .getPrimaryColor()),
+                                  ),
+                                  const SizedBox(width: 16),
                                 ],
                               ),
 

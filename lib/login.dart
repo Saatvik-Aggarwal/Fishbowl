@@ -82,6 +82,24 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: true,
                 ),
                 const SizedBox(height: 64.0),
+                Container(
+                  width: 200,
+                  decoration: BoxDecoration(
+                      color: settings.getPrimaryColor(),
+                      borderRadius: BorderRadius.circular(5)),
+                  child: CupertinoButton(
+                    color: settings.getPrimaryColor(),
+                    onPressed: () {
+                      if (_formKey.currentState?.validate() ?? false) {
+                        _login();
+                      }
+                    },
+                    child: const Text(
+                      'Login',
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16.0),
                 Column(
                   children: [
                     Container(
@@ -94,27 +112,19 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           if (_formKey.currentState?.validate() ?? false) {
                             _signup();
-                            showCupertinoModalPopup(
-                                context: context,
+                            Navigator.of(context).push(CupertinoPageRoute(
                                 builder: (BuildContext context) {
-                                  return ClipRRect(
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(50),
-                                      topRight: Radius.circular(50),
-                                    ),
-                                    child: Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.7,
-                                      width: double.infinity,
-                                      color: settings
-                                          .getBackgroundColor(), // Moved the color here
-                                      child: OnboardingPage(
-                                        settings: settings,
-                                      ),
-                                    ),
-                                  );
-                                });
+                              return Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.7,
+                                width: double.infinity,
+                                color: settings
+                                    .getBackgroundColor(), // Moved the color here
+                                child: OnboardingPage(
+                                  settings: settings,
+                                ),
+                              );
+                            }));
                           }
                         },
                         child: const Text(
@@ -122,25 +132,8 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
-                    ),
-                    Container(
-                      width: 200,
-                      decoration: BoxDecoration(
-                          color: settings.getPrimaryColor(),
-                          borderRadius: BorderRadius.circular(5)),
-                      child: CupertinoButton(
-                        color: settings.getPrimaryColor(),
-                        onPressed: () {
-                          if (_formKey.currentState?.validate() ?? false) {
-                            _login();
-                          }
-                        },
-                        child: const Text(
-                          'Login',
-                        ),
-                      ),
                     ),
                   ],
                 ),
