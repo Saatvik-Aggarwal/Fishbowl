@@ -121,15 +121,17 @@ class AgreementPage extends StatelessWidget {
                   ),
                   // Add an "I Agree" button
                   CupertinoButton.filled(
-                    child: Text('I Agree'),
+                    child: const Text('I Agree'),
                     onPressed: () {
                       Investment newInvestment = Investment(
                           companyID: companyID, shares: numberOfShares);
-                      print("about to go");
+                      // print("about to go");
 
                       newInvestment.uploadInvestment();
                       company
                           .updateCurrentTotal(numberOfShares * pricePerShare);
+
+                      Navigator.pop(context);
                     },
                   ),
                 ],

@@ -2,6 +2,7 @@ import 'package:fishbowl/agreement.dart';
 import 'package:fishbowl/appsettings.dart';
 import 'package:fishbowl/obj/company.dart';
 import 'package:fishbowl/obj/investments.dart';
+import 'package:fishbowl/shared_company_widgets.dart';
 import 'package:flutter/cupertino.dart';
 
 class InvestPage extends StatefulWidget {
@@ -25,7 +26,9 @@ class _InvestPageState extends State<InvestPage> {
   }
 
   int dollarAmount = 100;
-  TextEditingController dollarAmountController = TextEditingController();
+  TextEditingController dollarAmountController = TextEditingController(
+    text: "100",
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +65,9 @@ class _InvestPageState extends State<InvestPage> {
               ),
             ),
 
+            const SizedBox(height: 20),
+            CompanyInterestProgessBar(company: widget.company),
+            const SizedBox(height: 20),
             // Add a text box which shows the dollar amount (and updates as the slider is moved and can be edited)
             CupertinoTextField(
               controller: dollarAmountController,
