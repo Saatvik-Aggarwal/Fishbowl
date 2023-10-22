@@ -17,7 +17,7 @@ class Investments {
   ]) {
     final data = snapshot.data();
     return Investments(
-      company: data?['company'],
+      company: snapshot.id,
       shares: data?['shares'],
     );
   }
