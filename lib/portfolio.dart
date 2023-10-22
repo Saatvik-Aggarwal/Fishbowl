@@ -91,24 +91,60 @@ class Portfolio extends State<PortfolioPage> {
                               Company? company = snapshot.data;
                               return Column(
                                 children: [
-                                  Text(
-                                    company!.getAboutUs(),
-                                    style: TextStyle(
-                                        color: widget.settings.getPrimaryColor(),
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w200),
+                                  SizedBox(
+                                    height: 10,
+                                  ), 
+                                  Row(children: [
+                                    SizedBox(width: 10,),
+                                    Container(
+                                      width: 100,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        image: DecorationImage(
+                                          image: NetworkImage(company!.getFrontImage()),
+                                          fit: BoxFit.cover
+                                        )
+                                      ),
+                                    ),
+                                    SizedBox(width: 10,),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          company!.getName(),
+                                          style: TextStyle(
+                                              color: widget.settings.getPrimaryColor(),
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w200),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          invest.getShares().toString() + " shares",
+                                          style: TextStyle(
+                                              color: widget.settings.getPrimaryColor(),
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w200),
+                                        ),
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    Text(
+                                      "\$${(invest.getShares() * 100).toStringAsFixed(2)}",
+                                      style: TextStyle(
+                                          color: widget.settings.getPrimaryColor(),
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w200),
+                                    ),
+                                    SizedBox(width: 10,),
+                                  ],
                                   ),
                                   SizedBox(
                                     height: 10,
-                                  ),
-                                  Text(
-                                    company!.getVideoURL(),
-                                    style: TextStyle(
-                                        color: widget.settings.getPrimaryColor(),
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w200),
-                                  ),
-                                ],
+                                  ),     
+                              ],
                               );
                             }
                           },
