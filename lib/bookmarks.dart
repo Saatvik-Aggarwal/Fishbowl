@@ -1,12 +1,12 @@
 import 'package:fishbowl/appsettings.dart';
 import 'package:flutter/cupertino.dart';
 
-class MatchPage extends StatefulWidget {
+class BookmarksPage extends StatefulWidget {
   @override
-  State<MatchPage> createState() => _MatchPageState();
+  State<BookmarksPage> createState() => _BookmarksPageState();
 }
 
-class _MatchPageState extends State<MatchPage> {
+class _BookmarksPageState extends State<BookmarksPage> {
   final settings = AppSettings(loggedIn: true, darkMode: false);
 
   @override
@@ -26,10 +26,10 @@ class _MatchPageState extends State<MatchPage> {
             Row(
               children: [
                 Text(
-                  "My Interests",
+                  "Bookmarks",
                   style: TextStyle(
                       color: settings.getPrimaryColor(),
-                      fontSize: 22,
+                      fontSize: 28,
                       fontWeight: FontWeight.w200),
                 ),
                 Spacer(),

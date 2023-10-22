@@ -48,9 +48,11 @@ class _FeedPageState extends State<FeedPage> {
         backgroundColor: AppSettings().getPrimaryColor(),
         child: companies.isEmpty
             ? const Center(child: CupertinoActivityIndicator())
-            : SwipableStack(builder: (context, properties) {
-                return SingleFeedPage(
-                    company: companies[properties.index % companies.length]);
-              }));
+            : SwipableStack(
+                allowVerticalSwipe: false,
+                builder: (context, properties) {
+                  return SingleFeedPage(
+                      company: companies[properties.index % companies.length]);
+                }));
   }
 }
