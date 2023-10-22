@@ -45,19 +45,16 @@ class _FeedPageState extends State<FeedPage> {
           print(company);
         }
 
-<<<<<<< Updated upstream
         GlobalState().currentVideoCompanyId.value = companies[0].id!;
-=======
-        print("startups and industries are $startups_and_industries_map");
->>>>>>> Stashed changes
+        fetchOpenAICompletion();
       });
     });
-
-    fetchOpenAICompletion();
   }
 
   // Moved the asynchronous code to a separate method
   Future<void> fetchOpenAICompletion() async {
+    await Future.delayed(const Duration(seconds: 3));
+
     print("OPENAI WORKS");
     const conf = OpenAIConfiguration(
       apiKey: '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',
@@ -78,8 +75,8 @@ class _FeedPageState extends State<FeedPage> {
 
   promptGen() {
     print(
-        "Given a user's preferences in industries and a list of start-ups along with their respective industries, rank the start-ups in order of relevance to the user's preferences. User's preferences: $user_preferences_list. Start-ups and their industries: $startups_and_industries_map. Original order of start-ups: $companies. Return an array of indices in the order the start-ups should be presented to the user.");
-    return "Given a user's preferences in industries and a list of start-ups along with their respective industries, rank the start-ups in order of relevance to the user's preferences. User's preferences: $user_preferences_list. Start-ups and their industries: $startups_and_industries_map. Original order of start-ups: $companies. Return an array of indices in the order the start-ups should be presented to the user.";
+        "Given a user's preferences in industries and a list of start-ups along with their respective industries, rank the start-ups in order of relevance to the user's preferences. User's preferences: ${GlobalState().user?.industries}. Start-ups and their industries: $startups_and_industries_map. Original order of start-ups: $companies. Return an array of indices in the order the start-ups should be presented to the user.");
+    return "Given a user's preferences in industries and a list of start-ups along with their respective industries, rank the start-ups in order of relevance to the user's preferences. User's preferences: ${GlobalState().user?.industries}. Start-ups and their industries: $startups_and_industries_map. Original order of start-ups: $companies. Return an array of indices in the order the start-ups should be presented to the user.";
   }
 
   @override

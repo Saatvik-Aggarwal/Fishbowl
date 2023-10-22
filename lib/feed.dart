@@ -48,14 +48,11 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
     });
 
     _controller.setLooping(true);
-<<<<<<< Updated upstream
 
     GlobalState().currentVideoCompanyId.addListener(checkIfCanPlay);
 
     checkIfCanPlay();
 
-=======
->>>>>>> Stashed changes
     // Fetch investment data for the specific company
     fetchInvestmentData();
   }
