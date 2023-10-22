@@ -60,7 +60,7 @@ class CompanyInterestProgessBar extends StatelessWidget {
   Widget build(BuildContext context) {
     double currentTotal =
         company.currentTotal ?? 1.0; // Default to 1 to avoid division by zero
-    double progress = (company.currentTotal! / company.goalAmount!) ?? 0;
+    double progress = (company.currentTotal! / company.goalAmount!);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
@@ -71,7 +71,7 @@ class CompanyInterestProgessBar extends StatelessWidget {
             LinearProgressIndicator(
               minHeight: 40,
               value: progress,
-              backgroundColor: Color.fromARGB(255, 106, 120, 132),
+              backgroundColor: const Color.fromARGB(255, 106, 120, 132),
               valueColor: AlwaysStoppedAnimation<Color>(
                   AppSettings().getBackgroundColor()),
             ),
@@ -80,12 +80,8 @@ class CompanyInterestProgessBar extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: Text(
-                  "\$" +
-                      company.currentTotal.toString() +
-                      " out of \$" +
-                      company.goalAmount.toString() +
-                      " raised", // This will display, for example, "50%"
-                  style: TextStyle(
+                  "\$${company.currentTotal} out of \$${company.goalAmount}",
+                  style: const TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ),

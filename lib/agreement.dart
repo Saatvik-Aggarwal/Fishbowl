@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fishbowl/appsettings.dart';
 import 'package:fishbowl/etc/hexcolor.dart';
+import 'package:fishbowl/globalstate.dart';
 import 'package:fishbowl/obj/company.dart';
 import 'package:fishbowl/obj/investments.dart';
 import 'package:fishbowl/success_page.dart';
@@ -19,7 +20,8 @@ class AgreementPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? userName = "Batyr Bhakta"; // TODO: get user name
+    String? userName =
+        "${GlobalState().user!.firstName!} ${GlobalState().user!.lastName}";
     print("username is $userName!");
     String companyName = company.getName();
     print("username is $companyName");

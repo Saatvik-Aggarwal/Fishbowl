@@ -154,7 +154,7 @@ class Portfolio extends State<PortfolioPage> {
                                                   height: 10,
                                                 ),
                                                 Text(
-                                                  "${invest.getShares()} shares",
+                                                  "${invest.getShares().round()} shares",
                                                   style: TextStyle(
                                                       color: widget.settings
                                                           .getPrimaryColor(),

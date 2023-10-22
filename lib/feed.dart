@@ -6,10 +6,7 @@ import 'package:fishbowl/shared_company_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fishbowl/appsettings.dart';
 import 'package:flutter/material.dart';
-import 'package:openai_client/openai_client.dart';
-import 'package:toast/toast.dart';
 import 'package:video_player/video_player.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 class SingleFeedPage extends StatefulWidget {
   final Company company;
@@ -33,9 +30,21 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
 
   void checkIfCanPlay() {
     if (GlobalState().currentVideoCompanyId.value == widget.company.id) {
+      print("Playing video for ${widget.company.id}");
       _controller.play();
     } else {
+      print(
+          "Pausing video for ${widget.company.id} becase current video is ${GlobalState().currentVideoCompanyId.value}");
       _controller.pause();
+    }
+  }
+
+  void checkScrollPos() {
+    if (mainScrollController.offset <=
+            mainScrollController.position.minScrollExtent - 100 &&
+        focusNode.hasFocus) {
+      pageController.animateToPage(0,
+          duration: const Duration(milliseconds: 250), curve: Curves.easeInOut);
     }
   }
 
@@ -44,10 +53,14 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
     super.initState();
     // fetchOpenAICompletion();
     _controller.initialize().then((_) {
+      if (GlobalState().currentVideoCompanyId.value == widget.company.id) {
+        _controller.play();
+      }
       setState(() {});
     });
 
     _controller.setLooping(true);
+    mainScrollController.addListener(checkScrollPos);
 
     GlobalState().currentVideoCompanyId.addListener(checkIfCanPlay);
 
@@ -60,6 +73,7 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
   @override
   void dispose() {
     _controller.dispose();
+    mainScrollController.removeListener(checkScrollPos);
     GlobalState().currentVideoCompanyId.removeListener(checkIfCanPlay);
     super.dispose();
   }
@@ -300,7 +314,7 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
                               horizontal:
                                   16.0), // Add horizontal padding for a small indent
                           child: Text(
-                            "Investment Progress",
+                            "Demonstrated Interest",
                             style: TextStyle(
                                 color: settings.getBackgroundColor(),
                                 fontSize: 18,
@@ -399,10 +413,9 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
                                 width: 70,
                                 child: IconButton(
                                     icon: Icon(
-                                      GlobalState()
-                                              .user!
-                                              .bookmarks
-                                              .contains(widget.company.id)
+                                      (GlobalState().user?.bookmarks.contains(
+                                                  widget.company.id) ??
+                                              false)
                                           ? Icons.bookmark
                                           : Icons.bookmark_border,
                                     ),

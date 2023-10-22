@@ -41,36 +41,36 @@ class _FeedPageState extends State<FeedPage> {
         companies = companies;
         // print companies
         for (var company in companies) {
-          startups_and_industries_map[company] = company.industries;
+          // startups_and_industries_map[company] = company.industries;
           print(company);
         }
 
         GlobalState().currentVideoCompanyId.value = companies[0].id!;
-        fetchOpenAICompletion();
+        // fetchOpenAICompletion();
       });
     });
   }
 
   // Moved the asynchronous code to a separate method
   Future<void> fetchOpenAICompletion() async {
-    await Future.delayed(const Duration(seconds: 3));
+    // await Future.delayed(const Duration(seconds: 3));
 
-    print("OPENAI WORKS");
-    const conf = OpenAIConfiguration(
-      apiKey: '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',
-    );
-    final client = OpenAIClient(configuration: conf);
-    final completion = await client.completions
-        .create(
-          temperature: 1,
-          maxTokens: 150,
-          model: 'text-davinci-003',
-          prompt: promptGen(),
-        )
-        .data;
-    completionText = "${completion.choices[0].text.trim()}\n\n";
-    print(completionText);
-    setState(() {});
+    // print("OPENAI WORKS");
+    // const conf = OpenAIConfiguration(
+    //   apiKey: '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',
+    // );
+    // final client = OpenAIClient(configuration: conf);
+    // final completion = await client.completions
+    //     .create(
+    //       temperature: 1,
+    //       maxTokens: 150,
+    //       model: 'text-davinci-003',
+    //       prompt: promptGen(),
+    //     )
+    //     .data;
+    // completionText = "${completion.choices[0].text.trim()}\n\n";
+    // print(completionText);
+    // setState(() {});
   }
 
   promptGen() {
