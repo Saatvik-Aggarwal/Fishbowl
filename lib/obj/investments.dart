@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fishbowl/obj/company.dart';
 
 class Investments {
-
-  String? company;
-  int? shares;
+  String? companyID;
+  double? shares;
 
   Investments({
-    this.company,
+    this.companyID,
     this.shares,
   });
 
@@ -17,15 +17,16 @@ class Investments {
   ]) {
     final data = snapshot.data();
     return Investments(
-      company: snapshot.id,
+      companyID: snapshot.id,
       shares: data?['shares'],
     );
   }
 
   Future<Company> getCompany() async {
-    DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
         .collection('companies')
-        .doc(company)
+        .doc(companyID)
         .get();
     return Company.fromFirestore(snapshot);
   }
@@ -34,4 +35,20 @@ class Investments {
     return shares!.toDouble();
   }
 
+  Future<bool> uploadInvestment() async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('investments')
+          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .collection('interest')
+          .doc(companyID)
+          .set({
+        'shares': shares,
+      });
+      return true;
+    } catch (e) {
+      print('Error uploading investment: $e');
+      return false;
+    }
+  }
 }

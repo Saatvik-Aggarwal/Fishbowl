@@ -1,11 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fishbowl/agreement.dart';
 import 'package:fishbowl/appsettings.dart';
 import 'package:fishbowl/feed.dart';
 import 'package:fishbowl/firebase_options.dart';
 import 'package:fishbowl/globalstate.dart';
 import 'package:fishbowl/login.dart';
 import 'package:fishbowl/match.dart';
+import 'package:fishbowl/obj/company.dart';
+import 'package:fishbowl/obj/investments.dart';
 import 'package:fishbowl/portfolio.dart';
 import 'package:fishbowl/splash.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,7 +36,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoApp(
       title: 'Flutter Demo',
-
       //
       home: FutureBuilder(
           future: Future.delayed(const Duration(seconds: 1)),
@@ -106,7 +109,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     companyId: "hEhMFIihS09KNWOtQEy5",
                   );
                 case 1:
-                  return MatchPage();
+                  Investments testInvestment =
+                      Investments(companyID: "test", shares: 200);
+                  Company testCompany = Company(
+                      id: "test",
+                      currentTotal: 0,
+                      goalAmount: 230923.2,
+                      pricePerShare: 2.5,
+                      name: "test company");
+
+                  return AgreementPage(
+                    company: testCompany,
+                    investment: testInvestment,
+                  );
                 case 2:
                   return PortfolioPage(settings: widget.settings);
                 default:
