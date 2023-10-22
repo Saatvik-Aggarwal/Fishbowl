@@ -18,25 +18,31 @@ class _MatchPageState extends State<MatchPage> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       backgroundColor: settings.getBackgroundColor(),
-      child: Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Spacer(),
-            Text(
-              "welcome to",
-              style: TextStyle(
-                  fontFamily: "GeneralSans",
-                  // fontStyle: FontStyle.italic,
-                  color: settings.getPrimaryColor(),
-                  fontSize: 48),
+            Row(
+              children: [
+                Text(
+                  "My Interests",
+                  style: TextStyle(
+                      color: settings.getPrimaryColor(),
+                      fontSize: 22,
+                      fontWeight: FontWeight.w200),
+                ),
+                Spacer(),
+              ],
             ),
-            Text(
-              "Fishbowl",
-              style: TextStyle(
-                  color: settings.getSecondaryColor(),
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold),
+            SizedBox(
+              height: 10,
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [for (int i = 0; i < 5; i++) ...interestIcons()],
+              ),
             ),
             Spacer(),
             Spacer(),
@@ -44,5 +50,18 @@ class _MatchPageState extends State<MatchPage> {
         ),
       ),
     );
+  }
+
+  List<Widget> interestIcons() {
+    return [
+      Container(
+        width: 200,
+        height: 150,
+        decoration: BoxDecoration(
+            color: settings.getPrimaryColor().withOpacity(0.1),
+            borderRadius: BorderRadius.circular(15)),
+      ),
+      SizedBox(width: 10) // Adjust the width as needed
+    ];
   }
 }

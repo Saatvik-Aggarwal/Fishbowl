@@ -1,4 +1,5 @@
 import 'package:fishbowl/appsettings.dart';
+import 'package:fishbowl/onboarding.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fishbowl/globalstate.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -80,27 +81,65 @@ class _LoginPageState extends State<LoginPage> {
                   controller: _passwordController,
                   obscureText: true,
                 ),
-                const SizedBox(height: 16.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                const SizedBox(height: 64.0),
+                Column(
                   children: [
-                    CupertinoButton(
-                      onPressed: () {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          _signup();
-                        }
-                      },
-                      child: const Text('Sign Up'),
+                    Container(
+                      width: 200,
+                      decoration: BoxDecoration(
+                          color: settings.getPrimaryColor(),
+                          borderRadius: BorderRadius.circular(5)),
+                      child: CupertinoButton(
+                        color: settings.getPrimaryColor(),
+                        onPressed: () {
+                          if (_formKey.currentState?.validate() ?? false) {
+                            // _signup();
+                            showCupertinoModalPopup(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(50),
+                                      topRight: Radius.circular(50),
+                                    ),
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.7,
+                                      width: double.infinity,
+                                      color: settings
+                                          .getBackgroundColor(), // Moved the color here
+                                      child: OnboardingPage(
+                                        settings: settings,
+                                      ),
+                                    ),
+                                  );
+                                });
+                          }
+                        },
+                        child: const Text(
+                          'Sign Up',
+                        ),
+                      ),
                     ),
-                    const SizedBox(width: 16.0),
-                    CupertinoButton(
-                      onPressed: () {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          _login();
-                        }
-                      },
-                      child: const Text(
-                        'Login',
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Container(
+                      width: 200,
+                      decoration: BoxDecoration(
+                          color: settings.getPrimaryColor(),
+                          borderRadius: BorderRadius.circular(5)),
+                      child: CupertinoButton(
+                        color: settings.getPrimaryColor(),
+                        onPressed: () {
+                          if (_formKey.currentState?.validate() ?? false) {
+                            _login();
+                          }
+                        },
+                        child: const Text(
+                          'Login',
+                        ),
                       ),
                     ),
                   ],
