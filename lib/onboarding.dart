@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fishbowl/appsettings.dart';
+import 'package:fishbowl/globalstate.dart';
 import 'package:fishbowl/obj/company.dart';
 import 'package:fishbowl/obj/investments.dart';
+import 'package:fishbowl/obj/user.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({
@@ -140,12 +143,16 @@ class Onboarding extends State<OnboardingPage> {
                 const SizedBox(height: 8),
                 CupertinoTextField(
                   placeholder: '100',
+                  keyboardType: TextInputType.number,
                   onChanged: (value) {
                     _budget = value;
                   },
                   onSubmitted: (value) {
                     _budget = value;
                   },
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                 ),
                 const SizedBox(height: 24),
                 Text(
@@ -191,7 +198,18 @@ class Onboarding extends State<OnboardingPage> {
                           'lastName': _lastName,
                           'balance': _budget,
                           'industries': _selectedIndustries,
+                          'bookmarks': [],
                         });
+
+                        GlobalState().user = FishbowlUser(
+                          id: FirebaseAuth.instance.currentUser!.uid,
+                          firstName: _firstName,
+                          lastName: _lastName,
+                          balance: double.tryParse(_budget) ?? 0,
+                          industries: _selectedIndustries,
+                          bookmarks: [],
+                        );
+
                         Navigator.pop(context);
                       },
                     ),

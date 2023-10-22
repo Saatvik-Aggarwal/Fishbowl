@@ -32,20 +32,8 @@ class _BookmarksPageState extends State<BookmarksPage> {
                       fontSize: 28,
                       fontWeight: FontWeight.w200),
                 ),
-                Spacer(),
               ],
             ),
-            SizedBox(
-              height: 10,
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [for (int i = 0; i < 5; i++) ...interestIcons()],
-              ),
-            ),
-            Spacer(),
-            Spacer(),
           ],
         ),
       ),
