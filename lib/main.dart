@@ -34,7 +34,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoApp(
-      title: 'Flutter Demo',
+      theme: const CupertinoThemeData(
+        textTheme: CupertinoTextThemeData(
+          textStyle: TextStyle(fontFamily: 'GeneralSans', color: Colors.white),
+        ),
+      ),
+      title: 'Fishbowl',
       //
       home: FutureBuilder(
           future: Future.delayed(const Duration(seconds: 1)),
