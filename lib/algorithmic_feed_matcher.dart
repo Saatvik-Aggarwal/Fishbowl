@@ -76,47 +76,24 @@ class _FeedPageState extends State<FeedPage> {
   promptGen() {
     print(
         "Given a user's preferences in industries and a list of start-ups along with their respective industries, rank the start-ups in order of relevance to the user's preferences. User's preferences: ${GlobalState().user?.industries}. Start-ups and their industries: $startups_and_industries_map. Original order of start-ups: $companies. Return an array of indices in the order the start-ups should be presented to the user.");
-    return "Given a user's preferences in industries and a list of start-ups along with their respective industries, rank the start-ups in order of relevance to the user's preferences. User's preferences: ${GlobalState().user?.industries}. Start-ups and their industries: $startups_and_industries_map. Original order of start-ups: $companies. Return an array of indices in the order the start-ups should be presented to the user. DO NOT include anything but the array itself.";
-  }
-
-  List<int> parseIndices(String indicesString) {
-    // Remove square brackets and spaces
-    indicesString = indicesString
-        .replaceAll('[', '')
-        .replaceAll(']', '')
-        .replaceAll(' ', '');
-    List<String> indexStrings = indicesString.split(',');
-    List<int> indices = indexStrings.map((indexString) {
-      return int.parse(indexString);
-    }).toList();
-    return indices;
+    return "Given a user's preferences in industries and a list of start-ups along with their respective industries, rank the start-ups in order of relevance to the user's preferences. User's preferences: ${GlobalState().user?.industries}. Start-ups and their industries: $startups_and_industries_map. Original order of start-ups: $companies. Return an array of indices in the order the start-ups should be presented to the user.";
   }
 
   @override
   Widget build(BuildContext context) {
-    List<int> indices = parseIndices(completionText ?? ''); // Parse the string
-    List<Company> displayedCompanies = indices.map((index) {
-      return companies[
-          index % companies.length]; // Get the companies based on the indices
-    }).toList();
-
     return CupertinoPageScaffold(
-      backgroundColor: AppSettings().getPrimaryColor(),
-      child: companies.isEmpty
-          ? const Center(child: CupertinoActivityIndicator())
-          : SwipableStack(
-              allowVerticalSwipe: false,
-              onSwipeCompleted: (index, direction) {
-                GlobalState().currentVideoCompanyId.value =
-                    displayedCompanies[(index + 1) % displayedCompanies.length]
-                        .id!;
-              },
-              builder: (context, properties) {
-                return SingleFeedPage(
-                  company: displayedCompanies[
-                      properties.index % displayedCompanies.length],
-                );
-              }),
-    );
+        backgroundColor: AppSettings().getPrimaryColor(),
+        child: companies.isEmpty
+            ? const Center(child: CupertinoActivityIndicator())
+            : SwipableStack(
+                allowVerticalSwipe: false,
+                onSwipeCompleted: (index, direction) {
+                  GlobalState().currentVideoCompanyId.value =
+                      companies[(index + 1) % companies.length].id!;
+                },
+                builder: (context, properties) {
+                  return SingleFeedPage(
+                      company: companies[properties.index % companies.length]);
+                }));
   }
 }
