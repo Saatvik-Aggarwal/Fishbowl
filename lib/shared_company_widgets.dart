@@ -58,34 +58,19 @@ class CompanyInterestProgessBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(36),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Interest Progress",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: AppSettings(darkMode: true, loggedIn: true)
-                      .getTextOnPrimaryColor(),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              (company.currentTotal! / company.goalAmount!).toStringAsFixed(2),
-              style: TextStyle(
-                fontSize: 18,
-                color: AppSettings(darkMode: true, loggedIn: true)
-                    .getTextOnPrimaryColor(),
-              ),
-            ),
-          ],
+    double currentTotal =
+        company.currentTotal ?? 1.0; // Default to 1 to avoid division by zero
+    double progress = (company.currentTotal! / company.goalAmount!) ?? 0;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10.0),
+        child: LinearProgressIndicator(
+          minHeight: 40,
+          value: progress,
+          backgroundColor: Colors.grey[200],
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
         ),
       ),
     );

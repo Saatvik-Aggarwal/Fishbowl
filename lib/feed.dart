@@ -263,41 +263,72 @@ class _FeedPageState extends State<FeedPage> {
                                   ),
                                 ),
                               ),
-                              Row(
-                                // small bookmark button, "interested"
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CupertinoButton(
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                          CupertinoPageRoute(
-                                              builder: (context) => InvestPage(
-                                                  company: companyInfo!)));
-                                    },
-                                    color: AppSettings(
-                                            darkMode: true, loggedIn: true)
-                                        .getSecondaryColor(),
-                                    child: Text(
-                                      "Interested",
-                                      style: TextStyle(
+                              Text(
+                                "Investment Progress",
+                                style: TextStyle(
+                                    color: settings.getPrimaryColor(),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w200),
+                              ),
+                              CompanyInterestProgessBar(company: companyInfo!),
+                              Padding(
+                                padding: EdgeInsets.all(36),
+                                child: Row(
+                                  // small bookmark button, "interested"
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      height: 50,
+                                      width: 330,
+                                      child: CupertinoButton(
+                                        padding:
+                                            EdgeInsets.all(0), // No padding
+
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                              CupertinoPageRoute(
+                                                  builder: (context) =>
+                                                      InvestPage(
+                                                          company:
+                                                              companyInfo!)));
+                                        },
+                                        color: AppSettings(
+                                                darkMode: true, loggedIn: true)
+                                            .getSecondaryColor(),
+                                        child: Text(
+                                          "Interested",
+                                          style: TextStyle(
+                                              color: AppSettings(
+                                                      darkMode: true,
+                                                      loggedIn: true)
+                                                  .getTextOnSecondaryColor()),
+                                        ),
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: AppSettings(
+                                                darkMode: true, loggedIn: true)
+                                            .getSecondaryColor(),
+                                      ),
+                                      padding: EdgeInsets.all(0), // No padding
+                                      height: 50,
+                                      width: 70,
+                                      child: IconButton(
+                                          icon: Icon(Icons.bookmark_border),
+                                          onPressed: () {
+                                            Toast.show("Bookmarked!",
+                                                textStyle: context);
+                                          },
                                           color: AppSettings(
                                                   darkMode: true,
                                                   loggedIn: true)
-                                              .getTextOnSecondaryColor()),
+                                              .getPrimaryColor()),
                                     ),
-                                  ),
-                                  CupertinoButton(
-                                    onPressed: () {},
-                                    color: AppSettings(
-                                            darkMode: true, loggedIn: true)
-                                        .getSecondaryColor(),
-                                    child: Icon(CupertinoIcons.bookmark,
-                                        color: AppSettings(
-                                                darkMode: true, loggedIn: true)
-                                            .getPrimaryColor()),
-                                  ),
-                                  const SizedBox(width: 16),
-                                ],
+                                  ],
+                                ),
                               ),
 
                               const SizedBox(height: 80)
