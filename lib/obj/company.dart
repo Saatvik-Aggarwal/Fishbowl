@@ -64,7 +64,7 @@ class Company {
   }
 
   String getFrontImage() {
-    return frontImage!;
+    return frontImage ?? "https://placehold.co/600x400/EEE/31343C";
   }
 
   String getId() {
@@ -94,5 +94,10 @@ class Company {
       print('Updating company current total failed: $e');
       return false;
     }
+  }
+
+  @override
+  String toString() {
+    return 'Company ID: ${id ?? "UNKNOWN"}, Name: ${name ?? "UNKNOWN"}'; //, About Us: ${aboutUs ?? "UNKNOWN"}, Data: ${data ?? "UNKNOWN"}, Video: ${video ?? "UNKNOWN"}, Founders: ${founders ?? "UNKNOWN"}, Front Image: ${frontImage ?? "UNKNOWN"}, Price Per Share: ${pricePerShare ?? "UNKNOWN"}, Goal Amount: ${goalAmount ?? "UNKNOWN"}, Current Total: ${currentTotal ?? "UNKNOWN"}';
   }
 }

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fishbowl/agreement.dart';
+import 'package:fishbowl/algorithmic_feed_matcher.dart';
 import 'package:fishbowl/appsettings.dart';
 import 'package:fishbowl/feed.dart';
 import 'package:fishbowl/firebase_options.dart';
@@ -104,11 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   //   settings: widget.settings,
                   // );
                   return CupertinoTabView(
-                      builder: (context) => const FeedPage(
-                            companyId: true
-                                ? "hEhMFIihS09KNWOtQEy5"
-                                : "GGrj2e4WF8mvw7HlVrw5",
-                          ));
+                      builder: (context) => const FeedPage());
                 case 1:
                   return MatchPage();
 
