@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fishbowl/obj/company.dart';
 
-class User {
+class FishbowlUser {
   String id;
   String? firstName;
   String? lastName;
@@ -10,7 +9,7 @@ class User {
   double balance;
   List<String> bookmarks;
 
-  User(
+  FishbowlUser(
       {required this.id,
       required this.firstName,
       required this.lastName,
@@ -18,12 +17,12 @@ class User {
       required this.balance,
       this.bookmarks = const []});
 
-  factory User.fromFirestore(
+  factory FishbowlUser.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot, [
     SnapshotOptions? options,
   ]) {
     final data = snapshot.data();
-    return User(
+    return FishbowlUser(
       id: snapshot.id,
       firstName: data!['firstName'],
       lastName: data['lastName'],
@@ -46,7 +45,7 @@ class User {
   }
 
   double getBalance() {
-    return balance!.toDouble();
+    return balance.toDouble();
   }
 
   Future<bool> updateBalance(double decreaseBy) async {

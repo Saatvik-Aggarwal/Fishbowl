@@ -1,4 +1,5 @@
 import 'package:fishbowl/appsettings.dart';
+import 'package:fishbowl/globalstate.dart';
 import 'package:flutter/cupertino.dart';
 
 class BookmarksPage extends StatefulWidget {
@@ -23,17 +24,18 @@ class _BookmarksPageState extends State<BookmarksPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                Text(
-                  "Bookmarks",
-                  style: TextStyle(
-                      color: settings.getPrimaryColor(),
-                      fontSize: 28,
-                      fontWeight: FontWeight.w200),
-                ),
-              ],
+            Text(
+              "Bookmarks",
+              style: TextStyle(
+                  color: settings.getPrimaryColor(),
+                  fontSize: 28,
+                  fontWeight: FontWeight.w200),
             ),
+            // Expanded(
+            //   child: SingleChildScrollView(
+            //     child: GlobalState().user == null ?
+            //   )
+            // )
           ],
         ),
       ),

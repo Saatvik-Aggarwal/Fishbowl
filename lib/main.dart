@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fishbowl/agreement.dart';
@@ -5,10 +6,12 @@ import 'package:fishbowl/algorithmic_feed_matcher.dart';
 import 'package:fishbowl/appsettings.dart';
 import 'package:fishbowl/feed.dart';
 import 'package:fishbowl/firebase_options.dart';
+import 'package:fishbowl/globalstate.dart';
 import 'package:fishbowl/login.dart';
 import 'package:fishbowl/bookmarks.dart';
 import 'package:fishbowl/obj/company.dart';
 import 'package:fishbowl/obj/investments.dart';
+import 'package:fishbowl/obj/user.dart';
 import 'package:fishbowl/portfolio.dart';
 import 'package:fishbowl/splash.dart';
 import 'package:flutter/cupertino.dart';
@@ -40,7 +43,6 @@ class MyApp extends StatelessWidget {
         ),
       ),
       title: 'Fishbowl',
-      //
       home: FutureBuilder(
           future: Future.delayed(const Duration(seconds: 1)),
           builder: (c, s) => s.connectionState != ConnectionState.done
@@ -56,9 +58,9 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  AppSettings settings;
+  final AppSettings settings;
 
-  MyHomePage({super.key, required this.title, required this.settings});
+  const MyHomePage({super.key, required this.title, required this.settings});
 
   final String title;
 
@@ -74,6 +76,20 @@ class _MyHomePageState extends State<MyHomePage> {
     // set up the auth state listener (setState() will be called when auth state changes)
 
     FirebaseAuth.instance.authStateChanges().listen((user) {
+      if (user != null) {
+        // if the user is logged in, then get the user's data from the database
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .get()
+            .then((documentSnapshot) {
+          if (!documentSnapshot.exists) {
+            return;
+          }
+          GlobalState().user = FishbowlUser.fromFirestore(documentSnapshot);
+        });
+      }
+
       setState(() {});
     });
   }
@@ -106,28 +122,10 @@ class _MyHomePageState extends State<MyHomePage> {
             tabBuilder: (context, index) {
               switch (index) {
                 case 0:
-                  // return Portfolio(
-                  //   settings: widget.settings,
-                  // );
                   return CupertinoTabView(
                       builder: (context) => const FeedPage());
                 case 1:
                   return BookmarksPage();
-
-                // case 2:
-                //   Investments testInvestment =
-                //       Investments(companyID: "test", shares: 200);
-                //   Company testCompany = Company(
-                //       id: "test",
-                //       currentTotal: 0,
-                //       goalAmount: 230923.2,
-                //       pricePerShare: 2.5,
-                //       name: "test company");
-
-                //   return AgreementPage(
-                //     company: testCompany,
-                //     investment: testInvestment,
-                //   );
                 case 2:
                   return CupertinoTabView(
                       builder: (context) => PortfolioPage(
