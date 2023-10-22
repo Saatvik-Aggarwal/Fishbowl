@@ -66,11 +66,31 @@ class CompanyInterestProgessBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10.0),
-        child: LinearProgressIndicator(
-          minHeight: 40,
-          value: progress,
-          backgroundColor: Colors.grey[200],
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+        child: Stack(
+          children: [
+            LinearProgressIndicator(
+              minHeight: 40,
+              value: progress,
+              backgroundColor: AppSettings(darkMode: true, loggedIn: true)
+                  .getTextOnSecondaryColor(),
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  "\$" +
+                      company.currentTotal.toString() +
+                      " out of \$" +
+                      company.goalAmount.toString() +
+                      " raised", // This will display, for example, "50%"
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
