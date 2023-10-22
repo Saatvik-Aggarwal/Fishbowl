@@ -270,7 +270,7 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
                             children: [
                               SizedBox(
                                 height: 50,
-                                width: 330,
+                                width: MediaQuery.of(context).size.width * 0.7,
                                 child: CupertinoButton(
                                   padding:
                                       const EdgeInsets.all(0), // No padding
