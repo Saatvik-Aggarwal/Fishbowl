@@ -35,10 +35,6 @@ class _FeedPageState extends State<FeedPage> {
         companyInfo = Company.fromFirestore(value);
         _controller = VideoPlayerController.networkUrl(
             Uri.parse(companyInfo?.getVideoURL() ?? ""));
-
-        _controller.initialize().then((_) => setState(() {}));
-        _controller.play();
-        _controller.setLooping(true);
       });
     });
   }
