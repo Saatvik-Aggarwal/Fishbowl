@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fishbowl/globalstate.dart';
 import 'package:fishbowl/invest.dart';
 import 'package:fishbowl/obj/company.dart';
@@ -28,10 +29,12 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
   late final VideoPlayerController _controller =
       VideoPlayerController.networkUrl(Uri.parse(widget.company.getVideoURL()));
 
+  late List<Map<String, dynamic>> investmentData = [];
+
   @override
   void initState() {
     super.initState();
-    fetchOpenAICompletion();
+    // fetchOpenAICompletion();
     _controller.initialize().then((_) {
       setState(() {});
       _controller.play();
@@ -39,41 +42,37 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
 
     _controller.setLooping(true);
 
-    mainScrollController.addListener(() {
-      if (mainScrollController.offset <=
-              mainScrollController.position.minScrollExtent - 100 &&
-          focusNode.hasFocus) {
-        pageController.animateToPage(0,
-            duration: const Duration(milliseconds: 250),
-            curve: Curves.easeInOut);
+    // Fetch investment data for the specific company
+    fetchInvestmentData();
+  }
+
+  // Fetch investment data for the specific company
+  Future<void> fetchInvestmentData() async {
+    final companyID = widget.company.id;
+
+    if (companyID != null) {
+      final QuerySnapshot<Map<String, dynamic>> snapshot =
+          await FirebaseFirestore.instance.collection('investments').get();
+
+      final List<Map<String, dynamic>> data = [];
+
+      for (final QueryDocumentSnapshot<Map<String, dynamic>> document
+          in snapshot.docs) {
+        final userID = document.id;
+        final equityDocument =
+            document.reference.collection('equity').doc(companyID);
+        final equitySnapshot = await equityDocument.get();
+
+        if (equitySnapshot.exists) {
+          final shares = equitySnapshot['shares'];
+          data.add({'userID': userID, 'shares': shares});
+        }
       }
-    });
-  }
 
-  // Moved the asynchronous code to a separate method
-  Future<void> fetchOpenAICompletion() async {
-    // print("OPENAI WORKS");
-    // const conf = OpenAIConfiguration(
-    //   // apiKey: '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',
-    // );
-    // final client = OpenAIClient(configuration: conf);
-    // final completion = await client.completions
-    //     .create(
-    //       temperature: 1,
-    //       maxTokens: 150,
-    //       model: 'text-davinci-003',
-    //       prompt: promptGen(),
-    //     )
-    //     .data;
-    // completionText = "${completion.choices[0].text.trim()}\n\n";
-    // print(completionText);
-    // setState(() {});
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
+      setState(() {
+        investmentData = data;
+      });
+    }
   }
 
   @override
@@ -262,6 +261,53 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
                           ),
                         ),
                         CompanyInterestProgessBar(company: widget.company),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal:
+                                  16.0), // Add horizontal padding for a small indent
+                          child: Text(
+                            "Investment Ledger",
+                            style: TextStyle(
+                                color: settings.getBackgroundColor(),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.95,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Card(
+                              elevation: 4,
+                              child: DataTable(
+                                columns: [
+                                  DataColumn(
+                                    label: Text('User ID'),
+                                  ),
+                                  DataColumn(
+                                    label: Text('\$'),
+                                  ),
+                                ],
+                                rows: investmentData.map((data) {
+                                  final userID = data['userID'];
+                                  final shares = data['shares'];
+                                  final investmentAmount =
+                                      calculateInvestmentAmount(shares);
+                                  return DataRow(
+                                    cells: [
+                                      DataCell(Text(userID)),
+                                      DataCell(Text(
+                                          '\$${investmentAmount.toStringAsFixed(2)}')),
+                                    ],
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(36),
                           child: Row(
@@ -348,6 +394,13 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
             ),
           ]),
     );
+  }
+
+  double calculateInvestmentAmount(double shares) {
+    if (widget.company.pricePerShare != null) {
+      return shares * widget.company.pricePerShare!;
+    }
+    return 0.0; // Return 0 if pricePerShare is not available
   }
 
   promptGen() {
