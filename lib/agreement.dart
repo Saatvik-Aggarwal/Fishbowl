@@ -128,7 +128,7 @@ class AgreementPage extends StatelessWidget {
                       height: 16,
                     ),
                     // Add an "I Agree" button
-                    Container(
+                    SizedBox(
                       width: double.infinity,
                       child: CupertinoButton.filled(
                         child: const Text(

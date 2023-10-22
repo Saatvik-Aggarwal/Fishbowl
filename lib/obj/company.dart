@@ -14,6 +14,7 @@ class Company {
   double? currentTotal;
   List<dynamic>? industries;
   String? id;
+  List<String> investors;
 
   Company(
       {this.aboutUs,
@@ -26,6 +27,7 @@ class Company {
       this.goalAmount,
       this.currentTotal,
       this.industries,
+      this.investors = const [],
       required this.id});
 
   factory Company.fromFirestore(
@@ -45,6 +47,7 @@ class Company {
         goalAmount: data?['goal_amount'],
         currentTotal: data?['current_total'],
         industries: data?['industries'],
+        investors: data?['investors'] ?? [],
         id: snapshot.id);
 
     GlobalState().companies[c.id!] = c;
@@ -97,10 +100,51 @@ class Company {
 
   Future<bool> updateCurrentTotal(double amountInterest) async {
     try {
+      if (!investors.contains(FirebaseAuth.instance.currentUser?.uid)) {
+        investors.add(FirebaseAuth.instance.currentUser!.uid);
+      }
       currentTotal = currentTotal! + amountInterest;
       await FirebaseFirestore.instance.collection('companies').doc(id).set({
         'current_total': currentTotal,
+        'investors': investors,
       }, SetOptions(merge: true));
+
+      if (currentTotal! >= goalAmount!) {
+        // For each user, get /investments/uid/interest/companyID and convert to /investments/uid/equity/companyID
+        for (String uid in investors) {
+          DocumentSnapshot<Map<String, dynamic>> snapshot =
+              await FirebaseFirestore.instance
+                  .collection('investments')
+                  .doc(uid)
+                  .collection('interest')
+                  .doc(id)
+                  .get();
+
+          if (!snapshot.exists) {
+            print("Investment does not exist!");
+            throw Exception('Investment does not exist!');
+          }
+
+          double shares = snapshot.data()?['shares'];
+
+          await FirebaseFirestore.instance
+              .collection('investments')
+              .doc(uid)
+              .collection('interest')
+              .doc(id)
+              .delete();
+
+          await FirebaseFirestore.instance
+              .collection('investments')
+              .doc(uid)
+              .collection('equity')
+              .doc(id)
+              .set({
+            'shares': shares,
+          });
+        }
+      }
+
       return true;
     } catch (e) {
       print('Updating company current total failed: $e');

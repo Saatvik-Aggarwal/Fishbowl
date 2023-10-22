@@ -44,6 +44,22 @@ class _BookmarksPageState extends State<BookmarksPage> {
   String? selectedIndustry;
   List<Company> filteredCompanies = [];
 
+  void popUntilFirst() {
+    Navigator.popUntil(context, (route) => route.isFirst);
+  }
+
+  @override
+  void initState() {
+    GlobalState().popNavigator.addListener(popUntilFirst);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    GlobalState().popNavigator.removeListener(popUntilFirst);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // Filter the companies based on the selected industry

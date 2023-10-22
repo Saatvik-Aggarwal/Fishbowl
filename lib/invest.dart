@@ -28,7 +28,7 @@ class _InvestPageState extends State<InvestPage> {
     super.dispose();
   }
 
-  int dollarAmount = 0;
+  double dollarAmount = 0;
   TextEditingController dollarAmountController = TextEditingController(
     text: "0",
   );
@@ -128,7 +128,7 @@ class _InvestPageState extends State<InvestPage> {
                                           onChanged: (value) {
                                             setState(() {
                                               dollarAmount =
-                                                  int.tryParse(value) ??
+                                                  double.tryParse(value) ??
                                                       dollarAmount;
                                             });
                                           },
@@ -185,7 +185,9 @@ class _InvestPageState extends State<InvestPage> {
                     child: CupertinoButton(
                       padding: const EdgeInsets.all(0),
                       onPressed: (dollarAmount == 0 ||
-                              dollarAmount > GlobalState().user!.balance)
+                              dollarAmount > GlobalState().user!.balance ||
+                              (dollarAmount + widget.company.currentTotal! >
+                                  widget.company.goalAmount!))
                           ? null
                           : () {
                               Navigator.push(
