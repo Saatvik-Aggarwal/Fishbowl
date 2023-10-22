@@ -101,39 +101,42 @@ class _InvestPageState extends State<InvestPage> {
                                             .getTextOnPrimaryColor(),
                                       ),
                                     ),
-                                    Spacer(),
-                                    Container(
-                                      width: 200,
-                                      child: CupertinoTextField(
-                                        controller: dollarAmountController,
-                                        keyboardType: TextInputType.number,
-                                        prefix: const Text(
-                                          " \$",
+                                    SizedBox(
+                                        width:
+                                            16), // Add a little space between the text and input
+                                    Expanded(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: CupertinoTextField(
+                                          controller: dollarAmountController,
+                                          keyboardType: TextInputType.number,
+                                          prefix: const Text(
+                                            " \$",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: HexColor("FFFFFF"),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
                                           style: TextStyle(
                                               color: Colors.black,
-                                              fontWeight: FontWeight.bold),
+                                              fontSize: 16),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              dollarAmount =
+                                                  int.tryParse(value) ??
+                                                      dollarAmount;
+                                            });
+                                          },
                                         ),
-                                        decoration: BoxDecoration(
-                                          color: HexColor("FFFFFF"),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        style: TextStyle(
-                                            color: Colors.black, fontSize: 16),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            dollarAmount =
-                                                int.tryParse(value) ??
-                                                    dollarAmount;
-                                          });
-                                        },
                                       ),
                                     ),
                                   ],
                                 ),
-                                SizedBox(
-                                  height: 8,
-                                ),
+                                SizedBox(height: 8),
                                 Row(
                                   children: [
                                     Text(
@@ -145,15 +148,10 @@ class _InvestPageState extends State<InvestPage> {
                                             .getTextOnPrimaryColor(),
                                       ),
                                     ),
-                                    Spacer(),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: HexColor("FFFFFF"),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      width: 200,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(6.0),
+                                    SizedBox(width: 16),
+                                    Expanded(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
                                         child: Text(
                                           "${(dollarAmount / (widget.company.pricePerShare ?? 1.0)).toStringAsFixed(2)} shares",
                                           style: TextStyle(
@@ -163,6 +161,8 @@ class _InvestPageState extends State<InvestPage> {
                                                     loggedIn: true)
                                                 .getTextOnPrimaryColor(),
                                           ),
+                                          overflow: TextOverflow
+                                              .ellipsis, // In case of overflow, ellipsis will be used
                                         ),
                                       ),
                                     ),
@@ -179,8 +179,8 @@ class _InvestPageState extends State<InvestPage> {
                     height: 32,
                   ),
                   Container(
-                    height: 50,
-                    width: 330,
+                    width: 420,
+                    height: 40,
                     child: CupertinoButton(
                       padding: EdgeInsets.all(0),
                       onPressed: () {

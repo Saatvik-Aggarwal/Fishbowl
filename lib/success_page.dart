@@ -21,9 +21,6 @@ class _SuccessPageState extends State<SuccessPage> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: Text('Success Page'),
-      ),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
