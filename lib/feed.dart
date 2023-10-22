@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fishbowl/invest.dart';
 import 'package:fishbowl/obj/company.dart';
 import 'package:fishbowl/shared_company_widgets.dart';
@@ -129,13 +127,15 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
                         ),
                         const SizedBox(height: 24),
                         ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            maxHeight: 400,
+                          constraints: BoxConstraints(
+                            maxHeight: 500,
+                            maxWidth: MediaQuery.of(context).size.width * 0.9,
                           ),
                           child: Center(
                             child: ListView.builder(
                               shrinkWrap: true,
-                              itemCount: widget.company.getFounders().length,
+                              itemCount:
+                                  widget.company.getFounders().length ?? 0,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 return Column(
@@ -186,7 +186,6 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
                           ),
                         ),
                         // Data
-
                         Card(
                           margin: const EdgeInsets.all(36),
                           child: Padding(
@@ -196,7 +195,8 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
                                 ListView.separated(
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: widget.company.getData().length,
+                                  itemCount:
+                                      widget.company.getData().length ?? 0,
                                   itemBuilder: (context, index) {
                                     return widget.company.getData()[index]
                                                 ["type"] ==
@@ -210,7 +210,7 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
                                               color: AppSettings(
                                                       darkMode: true,
                                                       loggedIn: true)
-                                                  .getTextOnPrimaryColor(),
+                                                  .getBackgroundColor(),
                                             ),
                                           )
                                         : Image.network(
@@ -286,20 +286,6 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
                                     onPressed: () {
                                       Toast.show("Bookmarked!",
                                           textStyle: context);
-
-                                      FirebaseFirestore.instance
-                                          .collection(
-                                            'users',
-                                          )
-                                          .doc(FirebaseAuth
-                                              .instance.currentUser!.uid)
-                                          .collection('bookmarks')
-                                          .doc(widget.company.id)
-                                          .set({
-                                        'companyID': widget.company.id,
-                                        'companyName': widget.company.name,
-                                        'timeBookmarked': DateTime.now(),
-                                      });
                                     },
                                     color: AppSettings(
                                             darkMode: true, loggedIn: true)
