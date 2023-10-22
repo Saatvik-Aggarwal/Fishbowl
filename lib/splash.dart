@@ -28,20 +28,10 @@ class _SplashState extends State<Splash> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Spacer(),
-            Text(
-              "welcome to",
-              style: TextStyle(
-                  fontFamily: "GeneralSans",
-                  // fontStyle: FontStyle.italic,
-                  color: widget.settings.getPrimaryColor(),
-                  fontSize: 48),
-            ),
-            Text(
-              "Fishbowl",
-              style: TextStyle(
-                  color: widget.settings.getSecondaryColor(),
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold),
+            Image.asset(
+              'assets/logo/png/logo-white-transparent.png',
+              height: 94,
+              width: 270,
             ),
             Spacer(),
             Spacer(),

@@ -149,12 +149,20 @@ class _BookmarksPageState extends State<BookmarksPage> {
         scrollDirection: Axis.horizontal,
         itemCount: industries.length,
         itemBuilder: (context, index) {
+          bool isSelected = selectedIndustry == industries[index];
+
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: GestureDetector(
               onTap: () {
                 setState(() {
-                  selectedIndustry = industries[index];
+                  if (isSelected) {
+                    // If already selected, deselect it
+                    selectedIndustry = null;
+                  } else {
+                    // Otherwise, select the clicked industry
+                    selectedIndustry = industries[index];
+                  }
                 });
               },
               child: Column(
@@ -162,13 +170,19 @@ class _BookmarksPageState extends State<BookmarksPage> {
                   Icon(
                     industryIcons[industries[index]],
                     size: 30,
-                    color: settings.getPrimaryColor(),
+                    color: isSelected
+                        ? settings
+                            .getSecondaryColor() // Highlight color for selected industry
+                        : settings.getPrimaryColor(),
                   ),
                   Text(
                     industries[index],
                     style: TextStyle(
                       fontSize: 12,
-                      color: settings.getPrimaryColor(),
+                      color: isSelected
+                          ? settings
+                              .getSecondaryColor() // Highlight color for selected industry
+                          : settings.getPrimaryColor(),
                     ),
                   ),
                 ],
