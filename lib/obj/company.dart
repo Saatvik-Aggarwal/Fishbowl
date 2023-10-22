@@ -36,6 +36,7 @@ class Company {
   ]) {
     final data = snapshot.data();
     // print("DATA: $data");
+
     Company c = Company(
         aboutUs: data?['about_us'],
         data: data?['data'],
@@ -47,7 +48,7 @@ class Company {
         goalAmount: data?['goal_amount'],
         currentTotal: data?['current_total'],
         industries: data?['industries'],
-        investors: data?['investors'] ?? [],
+        investors: List<String>.from(data?['investors'] ?? []),
         id: snapshot.id);
 
     GlobalState().companies[c.id!] = c;
