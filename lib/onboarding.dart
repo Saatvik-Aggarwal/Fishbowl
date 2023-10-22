@@ -196,7 +196,7 @@ class Onboarding extends State<OnboardingPage> {
                             .set({
                           'firstName': _firstName,
                           'lastName': _lastName,
-                          'balance': _budget,
+                          'balance': double.tryParse(_budget) ?? 0,
                           'industries': _selectedIndustries,
                           'bookmarks': [],
                         });
