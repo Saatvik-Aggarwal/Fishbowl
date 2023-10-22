@@ -12,4 +12,6 @@ class GlobalState {
   Map<String, Company> companies = {};
 
   ValueNotifier<bool> popNavigator = ValueNotifier(false);
+
+  ValueNotifier<String> currentVideoCompanyId = ValueNotifier('');
 }

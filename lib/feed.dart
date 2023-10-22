@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:openai_client/openai_client.dart';
 import 'package:toast/toast.dart';
 import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class SingleFeedPage extends StatefulWidget {
   final Company company;
@@ -31,19 +32,37 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
 
   late List<Map<String, dynamic>> investmentData = [];
 
+  void checkIfCanPlay() {
+    if (GlobalState().currentVideoCompanyId.value == widget.company.id) {
+      _controller.play();
+    } else {
+      _controller.pause();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     // fetchOpenAICompletion();
     _controller.initialize().then((_) {
       setState(() {});
-      _controller.play();
     });
 
     _controller.setLooping(true);
 
+    GlobalState().currentVideoCompanyId.addListener(checkIfCanPlay);
+
+    checkIfCanPlay();
+
     // Fetch investment data for the specific company
     fetchInvestmentData();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    GlobalState().currentVideoCompanyId.removeListener(checkIfCanPlay);
+    super.dispose();
   }
 
   // Fetch investment data for the specific company
@@ -97,7 +116,39 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height,
-              child: VideoPlayer(_controller),
+              child: Stack(children: [
+                VideoPlayer(_controller),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: IconButton(
+                    alignment: Alignment.topCenter,
+                    padding: const EdgeInsets.only(bottom: 64),
+                    hoverColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onPressed: () {
+                      // Wrap the play or pause in a call to `setState`. This ensures the
+                      // correct icon is shown.
+                      setState(() {
+                        // If the video is playing, pause it.
+                        if (_controller.value.isPlaying) {
+                          _controller.pause();
+                        } else {
+                          // If the video is paused, play it.
+                          _controller.play();
+                        }
+                      });
+                    },
+                    // Display the correct icon depending on the state of the player.
+                    icon: Icon(
+                      _controller.value.isPlaying
+                          ? Icons.pause
+                          : Icons.play_arrow,
+                      size: 48,
+                    ),
+                  ),
+                )
+              ]),
             ),
             // Display Company Name
             Focus(

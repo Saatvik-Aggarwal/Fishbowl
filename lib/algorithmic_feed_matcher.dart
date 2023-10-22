@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fishbowl/appsettings.dart';
 import 'package:fishbowl/feed.dart';
+import 'package:fishbowl/globalstate.dart';
 import 'package:fishbowl/obj/company.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:swipable_stack/swipable_stack.dart';
@@ -33,11 +34,12 @@ class _FeedPageState extends State<FeedPage> {
 
       setState(() {
         companies = companies;
-
         // print companies
         for (var company in companies) {
           print(company);
         }
+
+        GlobalState().currentVideoCompanyId.value = companies[0].id!;
       });
     });
   }
@@ -50,6 +52,10 @@ class _FeedPageState extends State<FeedPage> {
             ? const Center(child: CupertinoActivityIndicator())
             : SwipableStack(
                 allowVerticalSwipe: false,
+                onSwipeCompleted: (index, direction) {
+                  GlobalState().currentVideoCompanyId.value =
+                      companies[(index + 1) % companies.length].id!;
+                },
                 builder: (context, properties) {
                   return SingleFeedPage(
                       company: companies[properties.index % companies.length]);
