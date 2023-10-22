@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fishbowl/appsettings.dart';
+import 'package:fishbowl/obj/company.dart';
 import 'package:fishbowl/obj/investments.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class PortfolioPage extends StatefulWidget {
 
@@ -80,9 +82,37 @@ class Portfolio extends State<PortfolioPage> {
                         decoration: BoxDecoration(
                             color: widget.settings.getPrimaryColor().withOpacity(0.1),
                             borderRadius: BorderRadius.circular(15)),
-                        child: Column(
-                          children: [Text(invest.getCompany())],
-                        ),
+                        child: FutureBuilder(
+                          future: invest.getCompany(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return Container(color: Colors.red,);
+                            } else {
+                              Company? company = snapshot.data;
+                              return Column(
+                                children: [
+                                  Text(
+                                    company!.getAboutUs() + "AA",
+                                    style: TextStyle(
+                                        color: widget.settings.getPrimaryColor(),
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w200),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    company!.getVideoURL(),
+                                    style: TextStyle(
+                                        color: widget.settings.getPrimaryColor(),
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w200),
+                                  ),
+                                ],
+                              );
+                            }
+                          },
+                        )
                       ),
                       SizedBox(
                         height: 50,
