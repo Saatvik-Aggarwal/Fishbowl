@@ -88,7 +88,7 @@ class Company {
       currentTotal = currentTotal! + amountInterest;
       await FirebaseFirestore.instance.collection('companies').doc(id).set({
         'current_total': currentTotal,
-      });
+      }, SetOptions(merge: true));
       return true;
     } catch (e) {
       print('Updating company current total failed: $e');

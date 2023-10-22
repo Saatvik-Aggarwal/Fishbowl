@@ -105,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   // );
                   return CupertinoTabView(
                       builder: (context) => const FeedPage(
-                            companyId: true
+                            companyId: false
                                 ? "hEhMFIihS09KNWOtQEy5"
                                 : "GGrj2e4WF8mvw7HlVrw5",
                           ));

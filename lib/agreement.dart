@@ -139,7 +139,9 @@ class AgreementPage extends StatelessWidget {
               top: 10,
               right: 10,
               child: GestureDetector(
-                onTap: () => Navigator.pop(context),
+                onTap: () {
+                  Navigator.pop(context);
+                },
                 child: const Icon(CupertinoIcons.xmark),
               ),
             ),

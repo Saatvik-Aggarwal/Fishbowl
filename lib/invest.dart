@@ -1,5 +1,7 @@
+import 'package:fishbowl/agreement.dart';
 import 'package:fishbowl/appsettings.dart';
 import 'package:fishbowl/obj/company.dart';
+import 'package:fishbowl/obj/investments.dart';
 import 'package:flutter/cupertino.dart';
 
 class InvestPage extends StatefulWidget {
@@ -76,7 +78,18 @@ class _InvestPageState extends State<InvestPage> {
 
             // Confirm Interest button
             CupertinoButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                        builder: (context) => AgreementPage(
+                              company: widget.company,
+                              investment: Investment(
+                                  companyID: widget.company.id,
+                                  shares: dollarAmount /
+                                      widget.company.pricePerShare!),
+                            )));
+              },
               color: AppSettings().getSecondaryColor(),
               borderRadius: BorderRadius.circular(16),
               child: Text(
