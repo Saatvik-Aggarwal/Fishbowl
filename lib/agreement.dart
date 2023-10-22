@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fishbowl/etc/hexcolor.dart';
 import 'package:fishbowl/obj/company.dart';
 import 'package:fishbowl/obj/investments.dart';
 import 'package:flutter/cupertino.dart';
@@ -119,20 +120,45 @@ class AgreementPage extends StatelessWidget {
                       ),
                     ],
                   ),
+                  SizedBox(
+                    height: 16,
+                  ),
                   // Add an "I Agree" button
-                  CupertinoButton.filled(
-                    child: const Text('I Agree'),
-                    onPressed: () {
-                      Investment newInvestment = Investment(
-                          companyID: companyID, shares: numberOfShares);
-                      // print("about to go");
+                  Container(
+                    width: double.infinity,
+                    child: CupertinoButton.filled(
+                      child: const Text(
+                        'Agree',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        Investment newInvestment = Investment(
+                            companyID: companyID, shares: numberOfShares);
+                        newInvestment.uploadInvestment();
+                        company
+                            .updateCurrentTotal(numberOfShares * pricePerShare);
 
-                      newInvestment.uploadInvestment();
-                      company
-                          .updateCurrentTotal(numberOfShares * pricePerShare);
-
-                      Navigator.pop(context);
-                    },
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Container(
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                    width: double.infinity,
+                    child: CupertinoButton(
+                      color: HexColor("FA6C6C"),
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
                   ),
                 ],
               ),

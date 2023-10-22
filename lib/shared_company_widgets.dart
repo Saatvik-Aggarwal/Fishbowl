@@ -71,8 +71,7 @@ class CompanyInterestProgessBar extends StatelessWidget {
             LinearProgressIndicator(
               minHeight: 40,
               value: progress,
-              backgroundColor: AppSettings(darkMode: true, loggedIn: true)
-                  .getTextOnSecondaryColor(),
+              backgroundColor: Colors.blue.withOpacity(0.2),
               valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
             ),
             Align(
