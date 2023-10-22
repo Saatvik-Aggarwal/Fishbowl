@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                         color: settings.getPrimaryColor(),
                         onPressed: () {
                           if (_formKey.currentState?.validate() ?? false) {
-                            // _signup();
+                            _signup();
                             showCupertinoModalPopup(
                                 context: context,
                                 builder: (BuildContext context) {

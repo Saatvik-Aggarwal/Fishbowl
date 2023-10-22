@@ -7,7 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PortfolioPage extends StatefulWidget {
-
   const PortfolioPage({
     super.key,
     required this.settings,
@@ -22,7 +21,6 @@ class PortfolioPage extends StatefulWidget {
 //...[rest of the imports and beginning of the file]
 
 class Portfolio extends State<PortfolioPage> {
-
   @override
   void initState() {
     super.initState();
@@ -57,7 +55,7 @@ class Portfolio extends State<PortfolioPage> {
                             fontSize: 34,
                             fontWeight: FontWeight.w200),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 50,
                       ),
                       Row(
@@ -69,82 +67,103 @@ class Portfolio extends State<PortfolioPage> {
                                 fontSize: 22,
                                 fontWeight: FontWeight.w200),
                           ),
-                          Spacer(),
+                          const Spacer(),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Container(
                         decoration: BoxDecoration(
-                            color: widget.settings.getPrimaryColor().withOpacity(0.1),
+                            color: widget.settings
+                                .getPrimaryColor()
+                                .withOpacity(0.1),
                             borderRadius: BorderRadius.circular(15)),
                         height: 250,
                         child: ListView.builder(
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
                             var doc = snapshot.data!.docs[index];
-                            Investments invest = Investments.fromFirestore(doc);
+                            Investment invest = Investment.fromFirestore(doc);
+                            // print("Invest is null? " +
+                            //     (invest == null).toString());
+                            // print("Investment: " + invest.toString());
                             return FutureBuilder(
                               future: invest.getCompany(),
                               builder: (context, companySnapshot) {
                                 if (!companySnapshot.hasData) {
-                                  return Container(color: Colors.red,);
+                                  return Container(
+                                    color: Colors.red,
+                                  );
                                 } else {
                                   Company? company = companySnapshot.data;
                                   return Column(
                                     children: [
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       ),
-                                      Row(children: [
-                                        SizedBox(width: 10,),
-                                        Container(
-                                          width: 100,
-                                          height: 100,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(15),
-                                            image: DecorationImage(
-                                              image: NetworkImage(company!.getFrontImage()),
-                                              fit: BoxFit.cover
-                                            )
+                                      Row(
+                                        children: [
+                                          const SizedBox(
+                                            width: 10,
                                           ),
-                                        ),
-                                        SizedBox(width: 10,),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              company!.getName(),
-                                              style: TextStyle(
-                                                  color: widget.settings.getPrimaryColor(),
-                                                  fontSize: 22,
-                                                  fontWeight: FontWeight.w200),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Text(
-                                              invest.getShares().toString() + " shares",
-                                              style: TextStyle(
-                                                  color: widget.settings.getPrimaryColor(),
-                                                  fontSize: 22,
-                                                  fontWeight: FontWeight.w200),
-                                            ),
-                                          ],
-                                        ),
-                                        Spacer(),
-                                        Text(
-                                          "\$${(invest.getShares() * 100).toStringAsFixed(2)}",
-                                          style: TextStyle(
-                                              color: widget.settings.getPrimaryColor(),
-                                              fontSize: 22,
-                                              fontWeight: FontWeight.w200),
-                                        ),
-                                        SizedBox(width: 10,),
-                                      ],
+                                          Container(
+                                            width: 100,
+                                            height: 100,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                image: DecorationImage(
+                                                    image: NetworkImage(company!
+                                                        .getFrontImage()),
+                                                    fit: BoxFit.cover)),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                company!.getName(),
+                                                style: TextStyle(
+                                                    color: widget.settings
+                                                        .getPrimaryColor(),
+                                                    fontSize: 22,
+                                                    fontWeight:
+                                                        FontWeight.w200),
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                invest.getShares().toString() +
+                                                    " shares",
+                                                style: TextStyle(
+                                                    color: widget.settings
+                                                        .getPrimaryColor(),
+                                                    fontSize: 22,
+                                                    fontWeight:
+                                                        FontWeight.w200),
+                                              ),
+                                            ],
+                                          ),
+                                          const Spacer(),
+                                          Text(
+                                            "\$${(invest.getShares() * 100).toStringAsFixed(2)}",
+                                            style: TextStyle(
+                                                color: widget.settings
+                                                    .getPrimaryColor(),
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.w200),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       ),
                                     ],
@@ -155,7 +174,7 @@ class Portfolio extends State<PortfolioPage> {
                           },
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
                       Row(
@@ -167,17 +186,19 @@ class Portfolio extends State<PortfolioPage> {
                                 fontSize: 22,
                                 fontWeight: FontWeight.w200),
                           ),
-                          Spacer(),
+                          const Spacer(),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Container(
                         width: double.infinity,
                         height: 250,
                         decoration: BoxDecoration(
-                            color: widget.settings.getPrimaryColor().withOpacity(0.1),
+                            color: widget.settings
+                                .getPrimaryColor()
+                                .withOpacity(0.1),
                             borderRadius: BorderRadius.circular(15)),
                       )
                     ],

@@ -12,7 +12,7 @@ class AgreementPage extends StatelessWidget {
   }) : super(key: key);
 
   final Company company;
-  final Investments investment;
+  final Investment investment;
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +123,7 @@ class AgreementPage extends StatelessWidget {
                   CupertinoButton.filled(
                     child: Text('I Agree'),
                     onPressed: () {
-                      Investments newInvestment = Investments(
+                      Investment newInvestment = Investment(
                           companyID: companyID, shares: numberOfShares);
                       print("about to go");
 

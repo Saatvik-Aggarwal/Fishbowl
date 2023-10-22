@@ -1,11 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fishbowl/agreement.dart';
 import 'package:fishbowl/appsettings.dart';
 import 'package:fishbowl/feed.dart';
 import 'package:fishbowl/firebase_options.dart';
-import 'package:fishbowl/globalstate.dart';
 import 'package:fishbowl/login.dart';
 import 'package:fishbowl/match.dart';
 import 'package:fishbowl/obj/company.dart';
@@ -92,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: Icon(CupertinoIcons.play_circle_fill),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.home),
+                  icon: Icon(CupertinoIcons.bookmark_fill),
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(CupertinoIcons.person),
@@ -105,23 +103,29 @@ class _MyHomePageState extends State<MyHomePage> {
                   // return Portfolio(
                   //   settings: widget.settings,
                   // );
-                  return const FeedPage(
-                    companyId: "hEhMFIihS09KNWOtQEy5",
-                  );
+                  return CupertinoTabView(
+                      builder: (context) => const FeedPage(
+                            companyId: true
+                                ? "hEhMFIihS09KNWOtQEy5"
+                                : "GGrj2e4WF8mvw7HlVrw5",
+                          ));
                 case 1:
-                  Investments testInvestment =
-                      Investments(companyID: "test", shares: 200);
-                  Company testCompany = Company(
-                      id: "test",
-                      currentTotal: 0,
-                      goalAmount: 230923.2,
-                      pricePerShare: 2.5,
-                      name: "test company");
+                  return MatchPage();
 
-                  return AgreementPage(
-                    company: testCompany,
-                    investment: testInvestment,
-                  );
+                // case 2:
+                //   Investments testInvestment =
+                //       Investments(companyID: "test", shares: 200);
+                //   Company testCompany = Company(
+                //       id: "test",
+                //       currentTotal: 0,
+                //       goalAmount: 230923.2,
+                //       pricePerShare: 2.5,
+                //       name: "test company");
+
+                //   return AgreementPage(
+                //     company: testCompany,
+                //     investment: testInvestment,
+                //   );
                 case 2:
                   return PortfolioPage(settings: widget.settings);
                 default:

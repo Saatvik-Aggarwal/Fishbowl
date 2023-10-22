@@ -44,7 +44,7 @@ class Onboarding extends State<OnboardingPage> {
       builder: (context) => StatefulBuilder(
         builder: (BuildContext context, StateSetter localSetState) {
           return CupertinoActionSheet(
-            title: Text('Choose your interests'),
+            title: const Text('Choose your interests'),
             actions: industries.map((industry) {
               return CupertinoActionSheetAction(
                 child: Row(
@@ -52,7 +52,7 @@ class Onboarding extends State<OnboardingPage> {
                   children: [
                     Text(industry),
                     if (_selectedInterests.contains(industry))
-                      Icon(CupertinoIcons.check_mark,
+                      const Icon(CupertinoIcons.check_mark,
                           color: CupertinoColors.activeBlue)
                   ],
                 ),
@@ -68,7 +68,7 @@ class Onboarding extends State<OnboardingPage> {
               );
             }).toList(),
             cancelButton: CupertinoActionSheetAction(
-              child: Text('Done'),
+              child: const Text('Done'),
               onPressed: () {
                 Navigator.pop(context);
                 setState(
@@ -93,7 +93,7 @@ class Onboarding extends State<OnboardingPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
                 Text(
                   "First Name",
                   style: TextStyle(
@@ -101,7 +101,7 @@ class Onboarding extends State<OnboardingPage> {
                       fontSize: 18,
                       fontWeight: FontWeight.w200),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 CupertinoTextField(
                   placeholder: 'John',
                   onChanged: (value) {
@@ -111,7 +111,7 @@ class Onboarding extends State<OnboardingPage> {
                     _firstName = value;
                   },
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 Text(
                   "Last Name",
                   style: TextStyle(
@@ -119,7 +119,7 @@ class Onboarding extends State<OnboardingPage> {
                       fontSize: 18,
                       fontWeight: FontWeight.w200),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 CupertinoTextField(
                   placeholder: 'Doe',
                   onChanged: (value) {
@@ -129,7 +129,7 @@ class Onboarding extends State<OnboardingPage> {
                     _lastName = value;
                   },
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 Text(
                   "What is your budget?",
                   style: TextStyle(
@@ -137,7 +137,7 @@ class Onboarding extends State<OnboardingPage> {
                       fontSize: 18,
                       fontWeight: FontWeight.w200),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 CupertinoTextField(
                   placeholder: '100',
                   onChanged: (value) {
@@ -147,7 +147,7 @@ class Onboarding extends State<OnboardingPage> {
                     _budget = value;
                   },
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 Text(
                   "Interests",
                   style: TextStyle(
@@ -155,11 +155,12 @@ class Onboarding extends State<OnboardingPage> {
                       fontSize: 18,
                       fontWeight: FontWeight.w200),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 GestureDetector(
                   onTap: _showPicker,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
                     decoration: BoxDecoration(
                       border: Border.all(
                           color: widget.settings.getPrimaryColor(), width: 1),
@@ -168,7 +169,7 @@ class Onboarding extends State<OnboardingPage> {
                     child: Text(_selectedInterests.join(', ')),
                   ),
                 ),
-                SizedBox(height: 82),
+                const SizedBox(height: 82),
                 Center(
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.6,
