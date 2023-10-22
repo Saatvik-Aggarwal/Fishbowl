@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fishbowl/globalstate.dart';
+import 'package:fishbowl/obj/company.dart';
 
 class FishbowlUser {
   String id;
@@ -22,14 +24,29 @@ class FishbowlUser {
     SnapshotOptions? options,
   ]) {
     final data = snapshot.data();
-    return FishbowlUser(
-      id: snapshot.id,
-      firstName: data!['firstName'],
-      lastName: data['lastName'],
-      industries: data['industries'],
-      balance: data['balance'] ?? 0.0,
-      bookmarks: data['bookmarks'] ?? [],
-    );
+
+    print('User data: $data');
+
+    FishbowlUser u = FishbowlUser(
+        id: snapshot.id,
+        firstName: data!['firstName'],
+        lastName: data['lastName'],
+        industries: data['industries'] ?? [],
+        balance: data['balance'] ?? 0.0,
+        bookmarks: []);
+
+    for (String company in data['bookmarks'] ?? []) {
+      FirebaseFirestore.instance
+          .collection('companies')
+          .doc(company)
+          .get()
+          .then((doc) {
+        GlobalState().companies[doc.id] = Company.fromFirestore(doc);
+      });
+      u.bookmarks.add(company);
+    }
+
+    return u;
   }
 
   String getFirstName() {

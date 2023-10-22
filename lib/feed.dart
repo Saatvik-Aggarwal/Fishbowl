@@ -1,3 +1,4 @@
+import 'package:fishbowl/globalstate.dart';
 import 'package:fishbowl/invest.dart';
 import 'package:fishbowl/obj/company.dart';
 import 'package:fishbowl/shared_company_widgets.dart';
@@ -262,16 +263,17 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
                         ),
                         CompanyInterestProgessBar(company: widget.company),
                         Padding(
-                          padding: EdgeInsets.all(36),
+                          padding: const EdgeInsets.all(36),
                           child: Row(
                             // small bookmark button, "interested"
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(
+                              SizedBox(
                                 height: 50,
                                 width: 330,
                                 child: CupertinoButton(
-                                  padding: EdgeInsets.all(0), // No padding
+                                  padding:
+                                      const EdgeInsets.all(0), // No padding
 
                                   onPressed: () {
                                     Navigator.of(context).push(
@@ -291,7 +293,7 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
                                   ),
                                 ),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
@@ -299,14 +301,37 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
                                           darkMode: true, loggedIn: true)
                                       .getBackgroundColor(),
                                 ),
-                                padding: EdgeInsets.all(0), // No padding
+                                padding: const EdgeInsets.all(0), // No padding
                                 height: 50,
                                 width: 70,
                                 child: IconButton(
-                                    icon: Icon(Icons.bookmark_border),
+                                    icon: Icon(
+                                      GlobalState()
+                                              .user!
+                                              .bookmarks
+                                              .contains(widget.company.id)
+                                          ? Icons.bookmark
+                                          : Icons.bookmark_border,
+                                    ),
                                     onPressed: () {
-                                      Toast.show("Bookmarked!",
-                                          textStyle: context);
+                                      if (GlobalState()
+                                          .user!
+                                          .bookmarks
+                                          .contains(widget.company.id)) {
+                                        GlobalState()
+                                            .user!
+                                            .bookmarks
+                                            .remove(widget.company.id);
+                                      } else {
+                                        GlobalState()
+                                            .user!
+                                            .bookmarks
+                                            .add(widget.company.id!);
+                                      }
+
+                                      GlobalState().user!.updateBookmarks();
+
+                                      setState(() {});
                                     },
                                     color: AppSettings(
                                             darkMode: true, loggedIn: true)

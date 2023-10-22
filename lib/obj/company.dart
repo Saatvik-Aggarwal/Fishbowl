@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fishbowl/globalstate.dart';
 
 class Company {
   String? name;
@@ -30,17 +31,21 @@ class Company {
     SnapshotOptions? options,
   ]) {
     final data = snapshot.data();
-    return Company(
+    // print("DATA: $data");
+    Company c = Company(
         aboutUs: data?['about_us'],
         data: data?['data'],
         video: data?['video'],
         founders: data?['founders'],
         name: data?['name'],
         frontImage: data?['front_image'],
-        pricePerShare: data?['price_per_share']?.toDouble(),
-        goalAmount: data?['goal_amount']?.toDouble(),
-        currentTotal: data?['current_total']?.toDouble(),
+        pricePerShare: data?['price_per_share'],
+        goalAmount: data?['goal_amount'],
+        currentTotal: data?['current_total'],
         id: snapshot.id);
+
+    GlobalState().companies[c.id!] = c;
+    return c;
   }
 
   String getAboutUs() {

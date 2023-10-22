@@ -94,6 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  int _currentTab = 0;
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -107,6 +109,15 @@ class _MyHomePageState extends State<MyHomePage> {
         : CupertinoTabScaffold(
             tabBar: CupertinoTabBar(
               height: 65,
+              currentIndex: _currentTab,
+              onTap: (index) {
+                setState(() {
+                  _currentTab = index;
+                  GlobalState().popNavigator.value = !GlobalState()
+                      .popNavigator
+                      .value; // toggle the popNavigator value to force the navigator to pop to the first page
+                });
+              },
               items: const [
                 BottomNavigationBarItem(
                   icon: Icon(CupertinoIcons.play_circle_fill),
@@ -125,7 +136,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   return CupertinoTabView(
                       builder: (context) => const FeedPage());
                 case 1:
-                  return BookmarksPage();
+                  return CupertinoTabView(
+                      builder: (context) => BookmarksPage());
                 case 2:
                   return CupertinoTabView(
                       builder: (context) => PortfolioPage(

@@ -42,7 +42,7 @@ class Investment {
   }
 
   double getShares() {
-    return shares!.toDouble();
+    return (shares ?? 0);
   }
 
   @override

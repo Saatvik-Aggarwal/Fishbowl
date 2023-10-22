@@ -1,6 +1,7 @@
 import 'package:fishbowl/agreement.dart';
 import 'package:fishbowl/appsettings.dart';
 import 'package:fishbowl/etc/hexcolor.dart';
+import 'package:fishbowl/globalstate.dart';
 import 'package:fishbowl/obj/company.dart';
 import 'package:fishbowl/obj/investments.dart';
 import 'package:fishbowl/shared_company_widgets.dart';
@@ -211,7 +212,14 @@ class _InvestPageState extends State<InvestPage> {
                   ),
                   CupertinoButton(
                     onPressed: () {
-                      // TODO: Add to saved companies
+                      if (!GlobalState()
+                          .user!
+                          .bookmarks
+                          .contains(widget.company.id)) {
+                        GlobalState().user!.bookmarks.add(widget.company.id!);
+                      }
+
+                      GlobalState().user!.updateBookmarks();
                       Navigator.pop(context);
                     },
                     color: AppSettings().getPrimaryColor(),
