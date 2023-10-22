@@ -262,41 +262,37 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
                         Card(
                           margin: const EdgeInsets.all(36),
                           child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              children: [
-                                ListView.separated(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount:
-                                      widget.company.getData().length ?? 0,
-                                  itemBuilder: (context, index) {
-                                    return widget.company.getData()[index]
-                                                ["type"] ==
-                                            "text"
-                                        ? Text(
-                                            widget.company.getData()[index]
-                                                    ["data"] ??
-                                                "",
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: AppSettings(
-                                                      darkMode: true,
-                                                      loggedIn: true)
-                                                  .getBackgroundColor(),
-                                            ),
-                                          )
-                                        : Image.network(
-                                            widget.company.getData()[index]
-                                                    ["data"] ??
-                                                "",
-                                            fit: BoxFit.fitWidth);
-                                  },
-                                  separatorBuilder: (context, index) {
-                                    return const SizedBox(height: 8);
-                                  },
-                                ),
-                              ],
+                            padding: const EdgeInsets.only(
+                                top: 32, left: 16, right: 16),
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: widget.company.getData().length,
+                              itemBuilder: (context, index) {
+                                return widget.company.getData()[index]
+                                            ["type"] ==
+                                        "text"
+                                    ? Text(
+                                        widget.company.getData()[index]
+                                                ["data"] ??
+                                            "",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: AppSettings(
+                                                  darkMode: true,
+                                                  loggedIn: true)
+                                              .getBackgroundColor(),
+                                        ),
+                                      )
+                                    : Image.network(
+                                        widget.company.getData()[index]
+                                                ["data"] ??
+                                            "",
+                                        fit: BoxFit.fitWidth);
+                              },
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(height: 8);
+                              },
                             ),
                           ),
                         ),
