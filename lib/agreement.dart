@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fishbowl/etc/hexcolor.dart';
 import 'package:fishbowl/obj/company.dart';
 import 'package:fishbowl/obj/investments.dart';
+import 'package:fishbowl/success_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -120,7 +121,7 @@ class AgreementPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   // Add an "I Agree" button
@@ -138,11 +139,13 @@ class AgreementPage extends StatelessWidget {
                         company
                             .updateCurrentTotal(numberOfShares * pricePerShare);
 
-                        Navigator.pop(context);
+                        Navigator.of(context).push(CupertinoPageRoute(
+                          builder: (context) => SuccessPage(),
+                        ));
                       },
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Container(
