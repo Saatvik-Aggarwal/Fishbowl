@@ -25,7 +25,6 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
   final mainScrollController = ScrollController();
   final pageController = PageController();
   final focusNode = FocusNode();
-  String? completionText; // To hold the text returned by OpenAI
 
   late final VideoPlayerController _controller =
       VideoPlayerController.networkUrl(Uri.parse(widget.company.getVideoURL()));
@@ -49,11 +48,14 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
     });
 
     _controller.setLooping(true);
+<<<<<<< Updated upstream
 
     GlobalState().currentVideoCompanyId.addListener(checkIfCanPlay);
 
     checkIfCanPlay();
 
+=======
+>>>>>>> Stashed changes
     // Fetch investment data for the specific company
     fetchInvestmentData();
   }
@@ -449,9 +451,5 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
       return shares * widget.company.pricePerShare!;
     }
     return 0.0; // Return 0 if pricePerShare is not available
-  }
-
-  promptGen() {
-    return "How old am I?";
   }
 }
