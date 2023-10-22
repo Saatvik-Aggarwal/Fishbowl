@@ -10,23 +10,33 @@ class BookmarksPage extends StatefulWidget {
 }
 
 class _BookmarksPageState extends State<BookmarksPage> {
-  final settings = AppSettings(loggedIn: true, darkMode: false);
+  final AppSettings settings = AppSettings(loggedIn: true, darkMode: false);
 
-  void popUntilFirst() {
-    Navigator.popUntil(context, (route) => route.isFirst);
-  }
+  final List<String> industries = [
+    'Technology',
+    'Healthcare',
+    'Financial Services',
+    'Energy',
+    'Consumer Goods',
+    'Real Estate',
+    'Transportation & Logistics',
+    'Telecommunications',
+    'Agriculture & Food Production',
+    'Manufacturing',
+  ];
 
-  @override
-  void initState() {
-    GlobalState().popNavigator.addListener(popUntilFirst);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    GlobalState().popNavigator.removeListener(popUntilFirst);
-    super.dispose();
-  }
+  final Map<String, IconData> industryIcons = {
+    'Technology': CupertinoIcons.gear_solid,
+    'Healthcare': CupertinoIcons.heart_solid,
+    'Financial Services': CupertinoIcons.creditcard,
+    'Energy': CupertinoIcons.bolt_horizontal_circle_fill,
+    'Consumer Goods': CupertinoIcons.bag_fill,
+    'Real Estate': CupertinoIcons.house_fill,
+    'Transportation & Logistics': CupertinoIcons.car_detailed,
+    'Telecommunications': CupertinoIcons.antenna_radiowaves_left_right,
+    'Agriculture & Food Production': CupertinoIcons.leaf_arrow_circlepath,
+    'Manufacturing': CupertinoIcons.hammer_fill,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +54,8 @@ class _BookmarksPageState extends State<BookmarksPage> {
                   fontSize: 28,
                   fontWeight: FontWeight.w200),
             ),
+            SizedBox(height: 16),
+            industryScrollView(),
             Expanded(
                 child: (GlobalState().user == null ||
                         GlobalState().user!.bookmarks.isEmpty)
@@ -86,16 +98,34 @@ class _BookmarksPageState extends State<BookmarksPage> {
     );
   }
 
-  List<Widget> interestIcons() {
-    return [
-      Container(
-        width: 200,
-        height: 150,
-        decoration: BoxDecoration(
-            color: settings.getPrimaryColor().withOpacity(0.1),
-            borderRadius: BorderRadius.circular(15)),
+  Widget industryScrollView() {
+    return Container(
+      height: 60,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: industries.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Column(
+              children: [
+                Icon(
+                  industryIcons[industries[index]],
+                  size: 30,
+                  color: settings.getPrimaryColor(),
+                ),
+                Text(
+                  industries[index],
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: settings.getPrimaryColor(),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
-      SizedBox(width: 10) // Adjust the width as needed
-    ];
+    );
   }
 }
