@@ -281,7 +281,7 @@ class Portfolio extends State<PortfolioPage> {
                                             ),
                                             const Spacer(),
                                             Text(
-                                              "\$${(invest.getShares() * 100).toStringAsFixed(2)}",
+                                              "\$${(invest.getShares() * GlobalState().companies[invest.companyID]!.pricePerShare!).toStringAsFixed(2)}",
                                               style: TextStyle(
                                                   color: widget.settings
                                                       .getPrimaryColor(),

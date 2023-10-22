@@ -51,22 +51,23 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
     final companyID = widget.company.id;
 
     if (companyID != null) {
-      final QuerySnapshot<Map<String, dynamic>> snapshot =
-          await FirebaseFirestore.instance.collection('investments').get();
-
       final List<Map<String, dynamic>> data = [];
 
-      for (final QueryDocumentSnapshot<Map<String, dynamic>> document
-          in snapshot.docs) {
-        final userID = document.id;
-        final equityDocument =
-            document.reference.collection('equity').doc(companyID);
-        final equitySnapshot = await equityDocument.get();
-
-        if (equitySnapshot.exists) {
-          final shares = equitySnapshot['shares'];
-          data.add({'userID': userID, 'shares': shares});
-        }
+      for (String s in widget.company.investors) {
+        await FirebaseFirestore.instance
+            .collection('investments')
+            .doc(s)
+            .collection('interest')
+            .doc(companyID)
+            .get()
+            .then((DocumentSnapshot<Map<String, dynamic>> snapshot) {
+          if (snapshot.exists) {
+            data.add({
+              'userID': s,
+              'shares': snapshot.data()?['shares'],
+            });
+          }
+        });
       }
 
       setState(() {
