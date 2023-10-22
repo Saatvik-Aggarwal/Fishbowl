@@ -4,6 +4,7 @@ import 'package:fishbowl/shared_company_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fishbowl/appsettings.dart';
 import 'package:flutter/material.dart';
+import 'package:openai_client/openai_client.dart';
 import 'package:toast/toast.dart';
 import 'package:video_player/video_player.dart';
 
@@ -18,10 +19,10 @@ class SingleFeedPage extends StatefulWidget {
 
 class _SingleFeedPageState extends State<SingleFeedPage> {
   final settings = AppSettings(loggedIn: true, darkMode: false);
-
   final mainScrollController = ScrollController();
   final pageController = PageController();
   final focusNode = FocusNode();
+  String? completionText; // To hold the text returned by OpenAI
 
   late final VideoPlayerController _controller =
       VideoPlayerController.networkUrl(Uri.parse(widget.company.getVideoURL()));
@@ -29,7 +30,7 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
   @override
   void initState() {
     super.initState();
-
+    fetchOpenAICompletion();
     _controller.initialize().then((_) {
       setState(() {});
       _controller.play();
@@ -46,6 +47,26 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
             curve: Curves.easeInOut);
       }
     });
+  }
+
+  // Moved the asynchronous code to a separate method
+  Future<void> fetchOpenAICompletion() async {
+    // print("OPENAI WORKS");
+    // const conf = OpenAIConfiguration(
+    //   // apiKey: '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',
+    // );
+    // final client = OpenAIClient(configuration: conf);
+    // final completion = await client.completions
+    //     .create(
+    //       temperature: 1,
+    //       maxTokens: 150,
+    //       model: 'text-davinci-003',
+    //       prompt: promptGen(),
+    //     )
+    //     .data;
+    // completionText = "${completion.choices[0].text.trim()}\n\n";
+    // print(completionText);
+    // setState(() {});
   }
 
   @override
@@ -302,5 +323,9 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
             ),
           ]),
     );
+  }
+
+  promptGen() {
+    return "How old am I?";
   }
 }

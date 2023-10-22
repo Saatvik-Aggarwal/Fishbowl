@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
     return CupertinoApp(
       theme: const CupertinoThemeData(
         textTheme: CupertinoTextThemeData(
-          textStyle: TextStyle(fontFamily: 'GeneralSans', color: Colors.white),
+          textStyle: TextStyle(fontFamily: 'Nunito', color: Colors.white),
         ),
       ),
       title: 'Fishbowl',

@@ -43,6 +43,7 @@ dependencies:
   cloud_firestore: ^4.11.0
   lottie: ^2.7.0
   swipable_stack: ^2.0.0
+  openai_client: ^0.0.5
 
 dev_dependencies:
   flutter_test:
@@ -87,6 +88,9 @@ flutter:
     - family: GeneralSans
       fonts:
         - asset: fonts/GeneralSans-Medium.otf
+    - family: Nunito
+      fonts:
+        - asset: fonts/Nunito-Regular.ttf
         # - asset: fonts/GeneralSans-Variable.ttf
         # - asset: fonts/GeneralSans-VariableItalic.ttf
         #   style: italic
