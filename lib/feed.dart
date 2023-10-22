@@ -193,20 +193,6 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
                             padding: const EdgeInsets.all(16.0),
                             child: Column(
                               children: [
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "The Data",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppSettings(
-                                              darkMode: true, loggedIn: true)
-                                          .getTextOnPrimaryColor(),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
                                 ListView.separated(
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
@@ -242,12 +228,17 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
                             ),
                           ),
                         ),
-                        Text(
-                          "Investment Progress",
-                          style: TextStyle(
-                              color: settings.getPrimaryColor(),
-                              fontSize: 18,
-                              fontWeight: FontWeight.w200),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal:
+                                  16.0), // Add horizontal padding for a small indent
+                          child: Text(
+                            "Investment Progress",
+                            style: TextStyle(
+                                color: settings.getBackgroundColor(),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                         CompanyInterestProgessBar(company: widget.company),
                         Padding(
@@ -270,7 +261,7 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
                                   },
                                   color: AppSettings(
                                           darkMode: true, loggedIn: true)
-                                      .getSecondaryColor(),
+                                      .getBackgroundColor(),
                                   child: Text(
                                     "Interested",
                                     style: TextStyle(
@@ -286,7 +277,7 @@ class _SingleFeedPageState extends State<SingleFeedPage> {
                                   borderRadius: BorderRadius.circular(8),
                                   color: AppSettings(
                                           darkMode: true, loggedIn: true)
-                                      .getSecondaryColor(),
+                                      .getBackgroundColor(),
                                 ),
                                 padding: EdgeInsets.all(0), // No padding
                                 height: 50,
