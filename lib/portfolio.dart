@@ -92,7 +92,7 @@ class Portfolio extends State<PortfolioPage> {
                               return Column(
                                 children: [
                                   Text(
-                                    company!.getAboutUs() + "AA",
+                                    company!.getAboutUs(),
                                     style: TextStyle(
                                         color: widget.settings.getPrimaryColor(),
                                         fontSize: 22,

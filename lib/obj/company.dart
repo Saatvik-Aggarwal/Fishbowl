@@ -3,9 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Company {
   String? name;
   String? aboutUs;
-  List<Map<String, String>>? data;
+  List<dynamic>? data;
   String? video;
-  List<Map<String, String>>? founders;
+  List<dynamic>? founders;
   String? frontImage;
 
   Company(
@@ -34,11 +34,11 @@ class Company {
     return aboutUs!;
   }
 
-  List<Map<String, String>> getData() {
+  List<dynamic> getData() {
     return data!;
   }
 
-  List<Map<String, String>> getFounders() {
+  List<dynamic> getFounders() {
     return founders!;
   }
 
